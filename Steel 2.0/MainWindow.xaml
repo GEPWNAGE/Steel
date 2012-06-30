@@ -1,0 +1,78 @@
+﻿<Window x:Class="Steel_2._0.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Steel 2.0" Height="787" Width="866" Loaded="Window_Loaded" Closing="Window_Closing" Icon="Steel_ICON.png">
+	<Window.Background>
+		<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+			<GradientStop Color="Black" Offset="1" />
+			<GradientStop Color="#ECC4C4C4" Offset="0" />
+		</LinearGradientBrush>
+	</Window.Background>
+	<Grid Name="grdMain" ShowGridLines="False">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*"/>				
+			<RowDefinition Height="33"/>
+		</Grid.RowDefinitions>
+
+		
+		<DataGrid Name="dgrGames" HeadersVisibility="None" Grid.Row="0" AutoGenerateColumns="False" 
+				CanUserReorderColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False" CanUserSortColumns="False" CanUserAddRows="False" Margin="0,0,0,6" RowBackground="#63000000" Foreground="#FFC7C7C7" ForceCursor="True" AlternatingRowBackground="#2C000000">
+			<DataGrid.Background>
+				<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+					<GradientStop Color="Black" Offset="1" />
+					<GradientStop Color="#ECC4C4C4" Offset="0" />
+				</LinearGradientBrush>
+			</DataGrid.Background>
+
+			<DataGrid.Columns>
+				<DataGridTemplateColumn Header="Icon" IsReadOnly="True">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<Image Source="{Binding listIcon}" Height="24" Width="24"/>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTextColumn Header="Game" Binding="{Binding title}" IsReadOnly="True"/>
+				<DataGridTextColumn Header="Size" Binding="{Binding size}" IsReadOnly="True"/>
+				<DataGridTextColumn Header="Status" Binding="{Binding status}" IsReadOnly="True" />
+				<DataGridTemplateColumn Header="Download" IsReadOnly="True">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Name="btnDownload" Content="Download" Click="btnDownload_Click_1"
+									Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" 
+									IsEnabled="{Binding downloadButtonEnabled}"
+									Foreground="#ECC4C4C4"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+				<DataGridTemplateColumn Header="Play" IsReadOnly="True">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<Button Name="btnPlay" Content="Play" Click="btnPlay_Click" 
+									Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" 
+									Foreground="#ECC4C4C4" IsEnabled="{Binding playButtonEnabled}"/>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				
+				<!--<DataGridTemplateColumn Header="Remove" IsReadOnly="True">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<Button Name="btnRemove" Content="Remove" Click="btnRemove_Click"
+									Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" 
+									IsEnabled="{Binding playButtonEnabled}"
+									Foreground="#ECC4C4C4"/>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>-->
+
+
+			</DataGrid.Columns>
+
+		</DataGrid>
+		<Button Content="Settings" Grid.Row="1" Height="23" HorizontalAlignment="Right" Margin="0,0,12,10" Name="btnSettings" VerticalAlignment="Bottom"  Width="75" Click="btnSettings_Click" />
+		<Label Content="Down: 0 Up: 0" Grid.Row="1" Height="28" HorizontalAlignment="Left" Margin="0,5,0,0" Name="lblNetwork" VerticalAlignment="Top" Foreground="Gray" />
+	</Grid>
+	
+</Window>

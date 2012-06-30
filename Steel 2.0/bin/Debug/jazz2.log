@@ -1,0 +1,30 @@
+LOG: GRADE (Build 98-194W), Executable: C:\steel\games\Jazz Jack Rabbit 2\Jazz2.exe
+LOG: Jazz Jackrabbit 2 version 1.24  
+
+WIN: Running Microsoft Windows NT Service Pack 1 version 6.1, Build 7601
+CPU: AMD Unknown processor, type 15 found
+CPU: Processor Vendor ID 'AuthenticAMD', Family 15, Model 4, Stepping 2
+CPU: Processor Features 178BFBFF (FPU, MMX)
+VID: Checking for available video modes
+VID:     DirectDraw v6.1.7600.16385 found
+VID:     Video memory 524014Kb (1Kb Free), AGP memory 1834236Kb (1834236Kb Free)
+VID:     Direct3D found
+NET: WinSock v2.2 "WinSock 2.0", Status: Running, Host: Fruitcake
+SND: Galaxy Music System v5.0a
+SND: Detected DirectSound driver
+---- Starting execution: invoke MainProg()
+
+4 macro files found in current directory
+Reading animation library
+VID: Resizing display (DirectDraw)
+VID: Resizing display (DirectDraw)
+total memory 10131328, largest block 10856520
+Normally exiting program
+VID: Resizing display (DirectDraw)
+
+---- Exiting program
+SND: Closing sound system
+NET: Closing network system
+WIN: Writing registry
+VID: Closing display (DirectDraw)
+WIN: Closing window

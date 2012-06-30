@@ -1,0 +1,39 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Steel_2._0.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="steelServerURL" Type="System.String" Scope="User">
+      <Value Profile="(Default)">http://steel.gepwnage.lan</Value>
+    </Setting>
+    <Setting Name="installPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">c:\Steel\games\</Value>
+    </Setting>
+    <Setting Name="downloadPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">c:\Steel\downloads\</Value>
+    </Setting>
+    <Setting Name="torrentPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">c:\Steel\torrents\</Value>
+    </Setting>
+    <Setting Name="torrentPort" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">4242</Value>
+    </Setting>
+    <Setting Name="xmlPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">c:\Steel\gamelist.xml</Value>
+    </Setting>
+    <Setting Name="Directory" Type="System.String" Scope="User">
+      <Value Profile="(Default)">c:\Steel\</Value>
+    </Setting>
+    <Setting Name="SettingsShown" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="lanServerURL" Type="System.String" Scope="User">
+      <Value Profile="(Default)">http://gepwnage.lan</Value>
+    </Setting>
+    <Setting Name="installedGames" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="downloadedGames" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+  </Settings>
+</SettingsFile>
