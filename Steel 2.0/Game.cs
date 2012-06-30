@@ -144,10 +144,15 @@ namespace Steel_2._0
 			return Settings.Default.steelServerURL + "/torrent.php?id=" + _id;
 		}
 
-		private string torrentPath()
+		public string torrentPath()
 		{
 			return Settings.Default.torrentPath + @"\" + _title + ".torrent";
 		}
+
+        public string gamePath()
+        {
+            return Settings.Default.installPath + _title + "\\";
+        }
 
 		private string downloadPath()
 		{
@@ -172,8 +177,8 @@ namespace Steel_2._0
 
 		public void AddExe(Exe pvExe)
 		{
-			_executables.Add(pvExe);
-			string iconFile = Settings.Default.Directory + "icons\\" + pvExe.icon;
+            _executables.Add(pvExe);
+            string iconFile = Settings.Default.Directory + "icons\\" + pvExe.icon;
 
             // check if we need to download the icon
             if (File.Exists(iconFile))
@@ -284,6 +289,7 @@ namespace Steel_2._0
 				Settings.Default.installedGames += (_id + @":");
 			installButtonEnabled = false;
 			playButtonEnabled = true;
+            installed = true;
 		}
 
 		public void downloadAndInstall()

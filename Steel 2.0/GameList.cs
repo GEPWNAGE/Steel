@@ -89,36 +89,30 @@ namespace Steel_2._0
 
 		private void checkGames()
 		{
-			string[] downloadedGameIDs = Settings.Default.downloadedGames.Split(':');
-			string[] installedGameIDs = Settings.Default.installedGames.Split(':');
-			
-			foreach(string d_id in downloadedGameIDs){
-				foreach(Game g in _list){
-					if(g.id == d_id){
-						if(installedGameIDs.Contains(d_id)){
-							//downloaded and installed;
-							g.installed = true;
-							g.playButtonEnabled = true;
-							g.startTorrent();						
-						}else{
-							//downloaded, not installed
-							g.installed = false;
-							g.downloadAndInstall();
-						}
-					}
-				}
-			}
-			foreach(string i_id in downloadedGameIDs){
-				foreach (Game g in _list) {
-					if(g.id == i_id){
-						if(!downloadedGameIDs.Contains(i_id)){
-							//not downloaded (removed), installed
-							g.playButtonEnabled = true;
-							g.installed = true;
-						}
-					}
-				}				
-			}
+            foreach (Game game in _list)
+            {
+                if (Directory.Exists(game.gamePath()))
+                {
+                    game.playButtonEnabled = true;
+                    game.installed = true;
+                    game.installButtonEnabled = false;
+                }
+
+                if (File.Exists(game.torrentPath()))
+                {
+                    if (!game.installed)
+                    {
+                        // resume downloading and install game
+                        game.downloadAndInstall();
+                    }
+                    else
+                    {
+                        // start seeding
+                        game.startTorrent();
+                    }
+                }
+
+            }
 		}
 	}
 }
