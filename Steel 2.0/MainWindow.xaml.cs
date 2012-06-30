@@ -27,6 +27,7 @@ namespace Steel_2._0
 			InitializeComponent();
 		}
 
+
 		private void Window_Loaded(object sender, RoutedEventArgs e)
 		{
 			if (!Settings.Default.SettingsShown) {
@@ -124,9 +125,11 @@ namespace Steel_2._0
 			settings.ShowDialog();
 		}
 
+        
 		private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
 			Settings.Default.Save();
+            TorrentEngine.saveStatus();
 		}
 
 		private void btnDownload_Click(object sender , RoutedEventArgs e)

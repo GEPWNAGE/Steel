@@ -7,6 +7,9 @@ using MonoTorrent.Common;
 using Steel_2._0.Properties;
 using MonoTorrent.Client.Encryption;
 using System.Net;
+using MonoTorrent.BEncoding;
+using System.IO;
+using System.Threading;
 
 namespace Steel_2._0
 {
@@ -14,10 +17,12 @@ namespace Steel_2._0
 	{
 		private static ClientEngine _engine;
 		private static TorrentSettings _torrentDefaults;
-
+        private static List<TorrentManager> managers;
 
 		public static void init()
 		{
+            managers = new List<TorrentManager>();
+
 			EngineSettings engineSettings = new EngineSettings(Settings.Default.downloadPath, Settings.Default.torrentPort);
 
 			engineSettings.PreferEncryption = false;
@@ -29,10 +34,43 @@ namespace Steel_2._0
 			_engine.ChangeListenEndpoint(new IPEndPoint(IPAddress.Any, Settings.Default.torrentPort));
 		}
 
+
+        public static void saveStatus()
+        {
+            BEncodedList list = new BEncodedList();
+            foreach (TorrentManager manager in managers)
+            {
+                if (manager.HashChecked)
+                {
+                    FastResume data = manager.SaveFastResume();
+                    BEncodedDictionary fastResume = data.Encode();
+                    list.Add(fastResume);
+                }
+            }
+
+            // Write all the fast resume data to disk
+            File.WriteAllBytes(Settings.Default.Directory + "torrent.data", list.Encode());
+        }
+
 		public static int addTorrent(string pvURL)
 		{
 			Torrent torrent = Torrent.Load(pvURL);
 			TorrentManager manager = new TorrentManager(torrent, Settings.Default.downloadPath, _torrentDefaults);
+
+            managers.Add(manager);
+
+            // check if there is resume-data available
+            BEncodedList list = (BEncodedList)BEncodedValue.Decode(File.ReadAllBytes(Settings.Default.Directory + "torrent.data"));
+            foreach (BEncodedDictionary fastResume in list)
+            {
+
+                FastResume data = new FastResume(fastResume);
+                if (manager.InfoHash == data.Infohash)
+                {
+                    manager.LoadFastResume(data);
+                }
+            }
+
 			_engine.Register(manager);
 			manager.Start();
 			return _engine.Torrents.IndexOf(manager);
