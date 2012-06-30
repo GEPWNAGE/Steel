@@ -377,22 +377,17 @@ namespace Steel_2._0
 		public void play(int index)
 		{
 			TorrentEngine.pauseAll();
-			var web = new System.Net.WebClient();
 
-			ASCIIEncoding enc = new ASCIIEncoding();
+            string executable = Settings.Default.installPath + title + @"\" + _executables[index].file;
 
-			string htmlstring = Uri.EscapeUriString(this.title);
+            Process gameProcess = new Process();
+            gameProcess.StartInfo.FileName = executable;
+            gameProcess.StartInfo.UseShellExecute = false;
+            gameProcess.StartInfo.WorkingDirectory = Settings.Default.installPath + title;
+            gameProcess.Start();
 
-			byte[] data = enc.GetBytes("hoi=" + htmlstring);
-			web.Headers.Add("Content-Type: application/x-www-form-urlencoded");
-			web.UploadDataAsync(new System.Uri(Settings.Default.lanServerURL + "hoi.php"), data);
-			ProcessStartInfo psi = new ProcessStartInfo(Settings.Default.installPath + @"\" + title + @"\" + _executables[index].file);
-			Process gameProcess = Process.Start(psi);
-			gameProcess.WaitForExit();
+            gameProcess.WaitForExit();
 
-			web.Headers.Add("Content-Type: application/x-www-form-urlencoded");
-			data = enc.GetBytes("doei=" + htmlstring);
-			web.UploadDataAsync(new System.Uri(Settings.Default.lanServerURL + "hoi.php"), data);
 
 			TorrentEngine.resumeAll();
 		}
