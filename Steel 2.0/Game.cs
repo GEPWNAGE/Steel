@@ -130,13 +130,13 @@ namespace Steel_2._0
 
 		public string icon(int index)
 		{
-			return Settings.Default.downloadPath + _executables[index].icon; 
+			return Settings.Default.Directory + "icons\\" + _executables[index].icon; 
 		}
 
 
 		public string listIcon
 		{
-			get { return Settings.Default.downloadPath + _executables[0].icon; }
+			get { return icon(0); }
 		}
 
 		private string torrentURL()
@@ -173,8 +173,16 @@ namespace Steel_2._0
 		public void AddExe(Exe pvExe)
 		{
 			_executables.Add(pvExe);
-			try {
-			    _downloader.DownloadFile(iconURL(pvExe.icon), Settings.Default.downloadPath + pvExe.icon);
+			string iconFile = Settings.Default.Directory + "icons\\" + pvExe.icon;
+
+            // check if we need to download the icon
+            if (File.Exists(iconFile))
+            {
+                return;
+            }
+            
+            try {
+			    _downloader.DownloadFile(iconURL(pvExe.icon), iconFile);
 			} catch (WebException e) {
 			    return;
 			    //todo
