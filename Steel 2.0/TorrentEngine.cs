@@ -57,6 +57,16 @@ namespace Steel_2._0
 			Torrent torrent = Torrent.Load(pvURL);
 			TorrentManager manager = new TorrentManager(torrent, Settings.Default.downloadPath, _torrentDefaults);
 
+            // make sure this torrent is new
+            foreach (TorrentManager m in managers)
+            {
+                if (manager.InfoHash == m.InfoHash)
+                {
+                    // torrent already exists, abort!
+                    return -1;
+                }
+            }
+
             managers.Add(manager);
 
             // check if there is resume-data available

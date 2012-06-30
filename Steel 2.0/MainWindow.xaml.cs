@@ -63,6 +63,17 @@ namespace Steel_2._0
 			Game g = ((FrameworkElement)sender).DataContext as Game;
 			selectedGame = g;
 
+            if (g._isInstalling || g._isDownloading)
+            {
+                return;
+            }
+
+            if (!g.installed)
+            {
+                g.downloadAndInstall();
+                return;
+            }
+
 			if (g.exeCount > 1) {
 				Button b = ((FrameworkElement)sender) as Button;
 

@@ -34,24 +34,14 @@
 				</DataGridTemplateColumn>
 				<DataGridTextColumn Header="Game" Binding="{Binding title}" IsReadOnly="True"/>
 				<DataGridTextColumn Header="Size" Binding="{Binding size}" IsReadOnly="True"/>
-				<DataGridTextColumn Header="Status" Binding="{Binding status}" IsReadOnly="True" />
-				<DataGridTemplateColumn Header="Download" IsReadOnly="True">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Button Name="btnDownload" Content="Download" Click="btnDownload_Click_1"
-									Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" 
-									IsEnabled="{Binding downloadButtonEnabled}"
-									Foreground="#ECC4C4C4"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-
-				<DataGridTemplateColumn Header="Play" IsReadOnly="True">
+				<DataGridTextColumn Header="Status" Binding="{Binding status}" IsReadOnly="True" MinWidth="300" />
+				
+				<DataGridTemplateColumn Header="Play" IsReadOnly="True" MinWidth="50">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<Button Name="btnPlay" Content="Play" Click="btnPlay_Click" 
+                            <Button Name="btnPlay" Content="{Binding buttonText}" Click="btnPlay_Click" 
 									Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" 
-									Foreground="#ECC4C4C4" IsEnabled="{Binding playButtonEnabled}"/>
+									Foreground="#ECC4C4C4" IsEnabled="{Binding buttonEnabled}"/>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>

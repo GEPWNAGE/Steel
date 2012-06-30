@@ -31,8 +31,8 @@ namespace Steel_2._0
 
 		private List<Exe> _executables;
 		private int _torrentID = -1;
-		private bool _isDownloading;
-		private bool _isInstalling;
+		public bool _isDownloading;
+		public bool _isInstalling;
 
 
 		public bool installed = false;
@@ -69,24 +69,36 @@ namespace Steel_2._0
 			set { _title = value; }
 		}
 
+        public string buttonText
+        {
+            get
+            {
+                if (_isInstalling)
+                {
+                    return "Installing...";
+                }
+                else if (_isDownloading)
+                {
+                    return "Downloading...";
+                }
+                else if (installed)
+                {
+                    return "Play";
+                }
+                else
+                {
+                    return "Installed";
+                }
+            }
+        }
 
-		public bool downloadButtonEnabled
-		{
-			get;
-			set;
-		}
-
-		public bool installButtonEnabled
-		{
-			get;
-			set;
-		}
-
-		public bool playButtonEnabled
-		{
-			get;
-			set;
-		}
+        bool buttonEnabled
+        {
+            get
+            {
+                return !_isInstalling;
+            }
+        }
 
 		public string size
 		{
@@ -107,6 +119,8 @@ namespace Steel_2._0
 			OnPropertyChanged("installButtonEnabled");
 			OnPropertyChanged("playButtonEnabled");
 			OnPropertyChanged("status");
+            OnPropertyChanged("buttonText");
+            OnPropertyChanged("buttonEnabled");
 		}
 
 		public string status
@@ -177,9 +191,6 @@ namespace Steel_2._0
 
 		public Game()
 		{
-			downloadButtonEnabled = true;
-			installButtonEnabled = false;
-			playButtonEnabled = false;
 			_isDownloading = false;
 			_isInstalling = false;
 			installed = false;
@@ -207,7 +218,6 @@ namespace Steel_2._0
 
 		public void install()
 		{
-			installButtonEnabled = false;
 			Thread extractThread = new Thread(extract_t);
 			//extractThread.IsBackground = true;
 			extractThread.Start();
@@ -270,11 +280,12 @@ namespace Steel_2._0
 			return ret;
 		}
 
-		public int startTorrent()
+		public int startTorrent(bool seeding = false)
 		{
-
-			downloadButtonEnabled = false;
-			_isDownloading = true;
+            if (!seeding)
+            {
+                _isDownloading = true;
+            }
 			_downloader.DownloadFileCompleted += new AsyncCompletedEventHandler(downloader_DownloadFileCompleted);
 			try {
 				_downloader.DownloadFileAsync(new Uri(torrentURL()), torrentPath(), _id);
@@ -296,10 +307,6 @@ namespace Steel_2._0
 			}
 			_isDownloading = false;
 			this.install();
-			if (!Settings.Default.installedGames.Contains(_id + @":"))
-				Settings.Default.installedGames += (_id + @":");
-			installButtonEnabled = false;
-			playButtonEnabled = true;
             installed = true;
 		}
 
@@ -331,7 +338,6 @@ namespace Steel_2._0
 		{
 			while (true) {
 				if(TorrentEngine.downloadDone(_torrentID)){
-					installButtonEnabled = true;
 					break;
 				}
 				Thread.Sleep(100);
@@ -340,7 +346,10 @@ namespace Steel_2._0
 
 		void downloader_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
 		{
-			_torrentID = TorrentEngine.addTorrent(torrentPath());
+            if (_torrentID == -1)
+            {
+                _torrentID = TorrentEngine.addTorrent(torrentPath());
+            }
 			Thread downloadMonitor = new Thread(downloadMonitor_t);
 			downloadMonitor.IsBackground = true;
 			downloadMonitor.Start();
@@ -380,6 +389,12 @@ namespace Steel_2._0
 
             string executable = Settings.Default.installPath + title + @"\" + _executables[index].file;
 
+
+            if (!File.Exists(executable))
+            {
+                return;
+            }
+
             Process gameProcess = new Process();
             gameProcess.StartInfo.FileName = executable;
             gameProcess.StartInfo.UseShellExecute = false;
@@ -387,7 +402,6 @@ namespace Steel_2._0
             gameProcess.Start();
 
             gameProcess.WaitForExit();
-
 
 			TorrentEngine.resumeAll();
 		}
@@ -405,8 +419,6 @@ namespace Steel_2._0
 				Directory.Delete(Settings.Default.installPath + @"\" + title + @"\", true);
 				installed = false;
 				_isDownloading = false;
-				playButtonEnabled = false;
-				downloadButtonEnabled = true;
 				
 				string[] installedGameIDs = Settings.Default.installedGames.Split(':');
 				Settings.Default.installedGames = "";
@@ -439,7 +451,6 @@ namespace Steel_2._0
 				File.Delete(downloadPath());
 			}
 			_isDownloading = false;
-			downloadButtonEnabled = true;
 
 			string[] downloadedGameIDs = Settings.Default.downloadedGames.Split(':');
 			Settings.Default.downloadedGames = "";

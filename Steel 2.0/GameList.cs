@@ -93,9 +93,7 @@ namespace Steel_2._0
             {
                 if (Directory.Exists(game.gamePath()))
                 {
-                    game.playButtonEnabled = true;
                     game.installed = true;
-                    game.installButtonEnabled = false;
                 }
 
                 if (File.Exists(game.torrentPath()))
@@ -108,11 +106,11 @@ namespace Steel_2._0
                     else
                     {
                         // start seeding
-                        game.startTorrent();
+                        game.startTorrent(true);
                     }
                 }
-
             }
 		}
+        
 	}
 }
