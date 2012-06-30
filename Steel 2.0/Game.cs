@@ -122,8 +122,19 @@ namespace Steel_2._0
 				if (_isInstalling)
 					return "Installing...";
 				if (installed)
-					return "Ready";
-				return "Not installed";
+                    if (getDownloadProgress() == -1)
+                    {
+                        return "Ready";
+                    }
+                    else if (getDownloadProgress() < 100)
+                    {
+                        return "Ready, checking (" + getDownloadProgress() + "%)";
+                    }
+                    else
+                    {
+                        return "Ready, seeding";
+                    }
+                return "Not installed";
 			
 			}
 		}
