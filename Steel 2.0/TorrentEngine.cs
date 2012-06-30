@@ -81,9 +81,16 @@ namespace Steel_2._0
                 }
             }
 
-			_engine.Register(manager);
-			manager.Start();
-			return _engine.Torrents.IndexOf(manager);
+            try
+            {
+                _engine.Register(manager);
+                manager.Start();
+                return _engine.Torrents.IndexOf(manager);
+            }
+            catch
+            {
+                return -1;
+            }
 		}
 
 		public static int getDownSpeed(int pvID)

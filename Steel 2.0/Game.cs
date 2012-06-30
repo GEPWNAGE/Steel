@@ -33,6 +33,7 @@ namespace Steel_2._0
 		private int _torrentID = -1;
 		public bool _isDownloading;
 		public bool _isInstalling;
+        public double progress = -1;
 
 
 		public bool installed = false;
@@ -87,7 +88,7 @@ namespace Steel_2._0
                 }
                 else
                 {
-                    return "Installed";
+                    return "Install";
                 }
             }
         }
@@ -134,7 +135,7 @@ namespace Steel_2._0
 											" Seeds: " + TorrentEngine.getSeeds(_torrentID).ToString() + 
 											", Peers: " + TorrentEngine.getPeers(_torrentID).ToString() + ")";
 				if (_isInstalling)
-					return "Installing...";
+					return "Installing... ("+progress+"%)";
 				if (installed)
                     if (getDownloadProgress() == -1)
                     {
@@ -223,27 +224,100 @@ namespace Steel_2._0
 			extractThread.Start();
 		}
 
+        void p_OutputDataReceived(object sender, DataReceivedEventArgs e)
+        {
+            Console.WriteLine("Received from standard out: " + e.Data);
+        }
+
 		public void extract_t()
 		{		
 			_isInstalling = true;
-			ProcessStartInfo psi = new ProcessStartInfo(@"arc"); 
+
+            System.Diagnostics.Process proc0 = new System.Diagnostics.Process();
+            proc0.StartInfo.FileName = "cmd";
+            Directory.CreateDirectory(Settings.Default.installPath + title + @"\");
+            proc0.StartInfo.WorkingDirectory = Settings.Default.installPath + title + @"\";
+            
+            string statusFile = proc0.StartInfo.WorkingDirectory+"status_"+id+".txt";
+            string command = "arc x -y \"" + downloadPath() + "\" > \""+statusFile+"\"";
+            proc0.StartInfo.Arguments = "/C " + command;
+            proc0.StartInfo.CreateNoWindow = true;
+            proc0.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+            proc0.Start();
+
+            while (!proc0.HasExited)
+            {
+                if (!File.Exists(statusFile))
+                {
+                    Thread.Sleep(1000);
+                    continue;
+                }
+                FileStream logFileStream = new FileStream(statusFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                StreamReader logFileReader = new StreamReader(logFileStream);
+
+                while (!logFileReader.EndOfStream)
+                {
+                    try
+                    {
+
+                        string line = logFileReader.ReadLine();
+                        string[] output = line.Split(' ');
+
+                        string percentage = output[output.Length - 1].Substring(0, output[output.Length - 1].Length - 2);
+
+                        double installPercentage;
+                        double.TryParse(percentage.Replace('.', ','), out installPercentage);
+
+                        if (installPercentage > progress)
+                        {
+                            progress = installPercentage;
+                        }
+                    }
+                    catch
+                    {
+                        // todo
+                    }
+                }
+
+                // Clean up
+                logFileReader.Close();
+                logFileStream.Close();
+
+                Thread.Sleep(1000);
+            }
+            
+            /*
+            ProcessStartInfo psi = new ProcessStartInfo(@"arc"); 
 			psi.Arguments = " x -y \"" + downloadPath() + "\"";
 			Directory.CreateDirectory(Settings.Default.installPath + title + @"\");
 			psi.WorkingDirectory = Settings.Default.installPath  + title + @"\";
-			//psi.RedirectStandardOutput = true;
+			psi.RedirectStandardOutput = true;
+            psi.RedirectStandardError = true;   
 			psi.WindowStyle = ProcessWindowStyle.Hidden;
 			//psi.CreateNoWindow = true;
 			psi.UseShellExecute = false;
 			Process unArc;
 			unArc = Process.Start(psi);
+
+            unArc.OutputDataReceived += p_OutputDataReceived;
+            unArc.ErrorDataReceived += p_OutputDataReceived;
+            
+
 			//_installProgress = unArc.StandardOutput;
 
 			// wait (non-blocking) until arc-process is ready
 			while (!unArc.HasExited)
 			{
-			    Thread.Sleep(1000); // 1s
+			    
+
+
 			}
 
+            var sr = unArc.StandardOutput;
+            Console.WriteLine(sr.ReadToEnd());
+            */
+
+            ProcessStartInfo psi;
 			if(File.Exists(Settings.Default.installPath + @"\" + title + @"\" + "setup.bat"))
 			{
 				psi = new ProcessStartInfo(Settings.Default.installPath + @"\" + title + @"\" + "setup.bat");
@@ -257,6 +331,7 @@ namespace Steel_2._0
 			}
 			_isInstalling = false;
 			installed = true;
+             
 
 		}
 
