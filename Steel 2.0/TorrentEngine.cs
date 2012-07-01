@@ -125,7 +125,10 @@ namespace Steel_2._0
 
 		public static void removeTorrent(int pvID)
 		{
-			_engine.Torrents[pvID].Dispose();
+            if (pvID >= 0 && pvID < _engine.Torrents.Count)
+            {
+                _engine.Torrents[pvID].Dispose();
+            }
 		}
 
 		public static int getTotalDownSpeed()

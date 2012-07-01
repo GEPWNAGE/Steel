@@ -282,6 +282,7 @@ namespace Steel_2._0
                 ProcessStartInfo processInfo = new ProcessStartInfo();
                 processInfo.Verb = "runas"; // administrator rights
                 processInfo.FileName = setupFile;
+                processInfo.WindowStyle = ProcessWindowStyle.Minimized;
                 processInfo.WorkingDirectory = Settings.Default.installPath + title;
                 Process.Start(processInfo);
 			}
@@ -471,7 +472,15 @@ namespace Steel_2._0
         {
             if (Directory.Exists(gamePath()))
             {
-                Directory.Delete(gamePath(), true);
+                try
+                {
+                    Directory.Delete(gamePath(), true);
+                }
+                catch
+                {
+                    // :(
+                }
+
             }
 
             TorrentEngine.removeTorrent(_torrentID);
