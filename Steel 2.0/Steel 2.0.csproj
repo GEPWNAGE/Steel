@@ -38,6 +38,9 @@
   <PropertyGroup>
     <ApplicationIcon>Steel_ICON.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>Steel 2.0.exe.manifest</ApplicationManifest>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="MonoTorrent">
       <HintPath>Resources\MonoTorrent.dll</HintPath>
@@ -115,6 +118,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <None Include="Steel 2.0.exe.manifest" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Steel_ICON.png" />

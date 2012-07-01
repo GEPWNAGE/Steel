@@ -8,6 +8,7 @@ using System.Threading;
 using System.IO;
 using System.Text;
 using System.Windows;
+using System.Security.Principal;
 
 
 namespace Steel_2._0
@@ -249,7 +250,7 @@ namespace Steel_2._0
             {
                 if (!File.Exists(statusFile))
                 {
-                    Thread.Sleep(1000);
+                    Thread.Sleep(500);
                     continue;
                 }
                 FileStream logFileStream = new FileStream(statusFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
@@ -283,51 +284,17 @@ namespace Steel_2._0
                 logFileReader.Close();
                 logFileStream.Close();
 
-                Thread.Sleep(1000);
+                Thread.Sleep(500);
             }
             
-            /*
-            ProcessStartInfo psi = new ProcessStartInfo(@"arc"); 
-			psi.Arguments = " x -y \"" + downloadPath() + "\"";
-			Directory.CreateDirectory(Settings.Default.installPath + title + @"\");
-			psi.WorkingDirectory = Settings.Default.installPath  + title + @"\";
-			psi.RedirectStandardOutput = true;
-            psi.RedirectStandardError = true;   
-			psi.WindowStyle = ProcessWindowStyle.Hidden;
-			//psi.CreateNoWindow = true;
-			psi.UseShellExecute = false;
-			Process unArc;
-			unArc = Process.Start(psi);
-
-            unArc.OutputDataReceived += p_OutputDataReceived;
-            unArc.ErrorDataReceived += p_OutputDataReceived;
-            
-
-			//_installProgress = unArc.StandardOutput;
-
-			// wait (non-blocking) until arc-process is ready
-			while (!unArc.HasExited)
-			{
-			    
-
-
-			}
-
-            var sr = unArc.StandardOutput;
-            Console.WriteLine(sr.ReadToEnd());
-            */
-
-            ProcessStartInfo psi;
-			if(File.Exists(Settings.Default.installPath + @"\" + title + @"\" + "setup.bat"))
-			{
-				psi = new ProcessStartInfo(Settings.Default.installPath + @"\" + title + @"\" + "setup.bat");
-				//psi.WorkingDirectory = Settings.Default.installPath + @"\" + title + @"\";
-				psi.WindowStyle = ProcessWindowStyle.Hidden;
-				psi.CreateNoWindow = true;
-				psi.UseShellExecute = false;
-
-				Process setup = Process.Start(psi);
-				setup.WaitForExit();
+            string setupFile = Settings.Default.installPath + title + @"\" + "setup.bat";
+			if(File.Exists(setupFile))
+            {
+                ProcessStartInfo processInfo = new ProcessStartInfo();
+                processInfo.Verb = "runas"; // administrator rights
+                processInfo.FileName = setupFile;
+                processInfo.WorkingDirectory = Settings.Default.installPath + title;
+                Process.Start(processInfo);
 			}
 			_isInstalling = false;
 			installed = true;
