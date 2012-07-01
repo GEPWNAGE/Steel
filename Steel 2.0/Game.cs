@@ -120,6 +120,7 @@ namespace Steel_2._0
 			OnPropertyChanged("status");
             OnPropertyChanged("buttonText");
             OnPropertyChanged("buttonEnabled");
+            OnPropertyChanged("uninstallButtonVisibility");
 		}
 
 		public string status
@@ -158,6 +159,21 @@ namespace Steel_2._0
 			
 			}
 		}
+
+        public string uninstallButtonVisibility
+        {
+            get
+            {
+                if (installed)
+                {
+                    return "visible";
+                }
+                else
+                {
+                    return "hidden";
+                }
+            }
+        }
 
 		public string icon(int index)
 		{
@@ -451,56 +467,30 @@ namespace Steel_2._0
 			throw new NotImplementedException();
 		}
 
+        public void uninstall()
+        {
+            if (Directory.Exists(gamePath()))
+            {
+                Directory.Delete(gamePath(), true);
+            }
 
+            TorrentEngine.removeTorrent(_torrentID);
 
-		public void remAll()
-		{
-			if (Directory.Exists(Settings.Default.installPath + @"\" + title + @"\")) {
-				Directory.Delete(Settings.Default.installPath + @"\" + title + @"\", true);
-				installed = false;
-				_isDownloading = false;
-				
-				string[] installedGameIDs = Settings.Default.installedGames.Split(':');
-				Settings.Default.installedGames = "";
-				
-				foreach (string gameID in installedGameIDs) {
-					if (gameID != _id) {
-						Settings.Default.installedGames += (gameID + @":");
-					}
-				}
+            if (File.Exists(downloadPath()))
+            {
+                File.Delete(downloadPath());
+            }
 
-				string[] downloadedGameIDs = Settings.Default.downloadedGames.Split(':');
-				Settings.Default.downloadedGames = "";
+            if (File.Exists(torrentPath()))
+            {
+                File.Delete(torrentPath());
+            }
 
-				foreach (string gameID in downloadedGameIDs) {
-					if (gameID != _id) {
-						Settings.Default.downloadedGames += (gameID + @":");
-					}
-				}
-			}
-			TorrentEngine.removeTorrent(_torrentID);
-			if (File.Exists(downloadPath())) {
-				File.Delete(downloadPath());
-			}
-			
-		}
+            installed = false;
+            _isInstalling = false;
+            _isDownloading = false;
+            _torrentID = -1;
+        }
 
-		public void remInstall()
-		{
-			if (File.Exists(downloadPath())) {
-				File.Delete(downloadPath());
-			}
-			_isDownloading = false;
-
-			string[] downloadedGameIDs = Settings.Default.downloadedGames.Split(':');
-			Settings.Default.downloadedGames = "";
-
-			foreach (string gameID in downloadedGameIDs) {
-				if (gameID != _id) {
-					Settings.Default.downloadedGames += (gameID + @":");
-				}
-			}
-			TorrentEngine.removeTorrent(_torrentID);
-		}
 	}
 }

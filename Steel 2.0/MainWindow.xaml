@@ -45,20 +45,19 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				
-				<!--<DataGridTemplateColumn Header="Remove" IsReadOnly="True">
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<Button Name="btnRemove" Content="Remove" Click="btnRemove_Click"
+
+
+                <DataGridTemplateColumn Header="Uninstall" IsReadOnly="True" MinWidth="50">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Name="btnUninstall" Content="Uninstall" Click="btnUninstall_Click" 
 									Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" 
-									IsEnabled="{Binding playButtonEnabled}"
-									Foreground="#ECC4C4C4"/>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>-->
+									Foreground="#ECC4C4C4" IsEnabled="true" Visibility="{Binding uninstallButtonVisibility}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
 
-
-			</DataGrid.Columns>
+            </DataGrid.Columns>
 
 		</DataGrid>
 		<Button Content="Settings" Grid.Row="1" Height="23" HorizontalAlignment="Right" Margin="0,0,12,10" Name="btnSettings" VerticalAlignment="Bottom"  Width="75" Click="btnSettings_Click" />

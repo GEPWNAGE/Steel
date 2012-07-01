@@ -176,16 +176,8 @@ namespace Steel_2._0
 			g.downloadAndInstall();
 		}
 
-		void RemInstall_Click(object sender, RoutedEventArgs e)
-		{
-			selectedGame.remInstall();
-		}
 
-		void RemAll_Click(object sender, RoutedEventArgs e)
-		{
-			selectedGame.remAll();
-		}
-
+        /*
 		private void btnRemove_Click(object sender, RoutedEventArgs e)
 		{
 			Game g = ((FrameworkElement)sender).DataContext as Game;
@@ -214,7 +206,15 @@ namespace Steel_2._0
 			}
 			b.ContextMenu.PlacementTarget = b;
 			b.ContextMenu.IsOpen = true;
-		}
+		}*/
+
+        private void btnUninstall_Click(object sender, RoutedEventArgs e)
+        {
+            Game g = ((FrameworkElement)sender).DataContext as Game;
+            selectedGame = g;
+
+            g.uninstall();
+        }
 
 	}
 }
