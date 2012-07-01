@@ -70,14 +70,17 @@ namespace Steel_2._0
             managers.Add(manager);
 
             // check if there is resume-data available
-            BEncodedList list = (BEncodedList)BEncodedValue.Decode(File.ReadAllBytes(Settings.Default.Directory + "torrent.data"));
-            foreach (BEncodedDictionary fastResume in list)
+            if (File.Exists(Settings.Default.Directory + "torrent.data"))
             {
-
-                FastResume data = new FastResume(fastResume);
-                if (manager.InfoHash == data.Infohash)
+                BEncodedList list = (BEncodedList)BEncodedValue.Decode(File.ReadAllBytes(Settings.Default.Directory + "torrent.data"));
+                foreach (BEncodedDictionary fastResume in list)
                 {
-                    manager.LoadFastResume(data);
+
+                    FastResume data = new FastResume(fastResume);
+                    if (manager.InfoHash == data.Infohash)
+                    {
+                        manager.LoadFastResume(data);
+                    }
                 }
             }
 

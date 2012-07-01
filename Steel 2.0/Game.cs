@@ -98,7 +98,7 @@ namespace Steel_2._0
         {
             get
             {
-                return !_isInstalling;
+                return !_isInstalling && !_isDownloading;
             }
         }
 
@@ -117,9 +117,6 @@ namespace Steel_2._0
 
 		public void updateStatus()
 		{
-			OnPropertyChanged("downloadButtonEnabled");
-			OnPropertyChanged("installButtonEnabled");
-			OnPropertyChanged("playButtonEnabled");
 			OnPropertyChanged("status");
             OnPropertyChanged("buttonText");
             OnPropertyChanged("buttonEnabled");
@@ -132,11 +129,18 @@ namespace Steel_2._0
 				if (_isDownloading && !installed)
 					return "Downloading... (" + getDownloadProgress().ToString() + 
 											"%, Down: " + getDownloadSpeed().ToString()  + 
-											" Up: " + getUploadSpeed().ToString() +
-											" Seeds: " + TorrentEngine.getSeeds(_torrentID).ToString() + 
+											" KBps, Up: " + getUploadSpeed().ToString() +
+											" KBps, Seeds: " + TorrentEngine.getSeeds(_torrentID).ToString() + 
 											", Peers: " + TorrentEngine.getPeers(_torrentID).ToString() + ")";
 				if (_isInstalling)
-					return "Installing... ("+progress+"%)";
+                    if (progress == -1)
+                    {
+                        return "Installing...";
+                    }
+                    else
+                    {
+                        return "Installing... (" + progress + "%)";
+                    }
 				if (installed)
                     if (getDownloadProgress() == -1)
                     {
@@ -236,8 +240,8 @@ namespace Steel_2._0
 
             System.Diagnostics.Process proc0 = new System.Diagnostics.Process();
             proc0.StartInfo.FileName = "cmd";
-            Directory.CreateDirectory(Settings.Default.installPath + title + @"\");
-            proc0.StartInfo.WorkingDirectory = Settings.Default.installPath + title + @"\";
+            Directory.CreateDirectory(gamePath());
+            proc0.StartInfo.WorkingDirectory = gamePath();
             
             string statusFile = proc0.StartInfo.WorkingDirectory+"status_"+id+".txt";
             string command = "arc x -y \"" + downloadPath() + "\" > \""+statusFile+"\"";
@@ -248,42 +252,11 @@ namespace Steel_2._0
 
             while (!proc0.HasExited)
             {
-                if (!File.Exists(statusFile))
+                if (File.Exists(statusFile))
                 {
-                    Thread.Sleep(500);
-                    continue;
+                    updateProgress(statusFile);
                 }
-                FileStream logFileStream = new FileStream(statusFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-                StreamReader logFileReader = new StreamReader(logFileStream);
-
-                while (!logFileReader.EndOfStream)
-                {
-                    try
-                    {
-
-                        string line = logFileReader.ReadLine();
-                        string[] output = line.Split(' ');
-
-                        string percentage = output[output.Length - 1].Substring(0, output[output.Length - 1].Length - 2);
-
-                        double installPercentage;
-                        double.TryParse(percentage.Replace('.', ','), out installPercentage);
-
-                        if (installPercentage > progress)
-                        {
-                            progress = installPercentage;
-                        }
-                    }
-                    catch
-                    {
-                        // todo
-                    }
-                }
-
-                // Clean up
-                logFileReader.Close();
-                logFileStream.Close();
-
+               
                 Thread.Sleep(500);
             }
             
@@ -302,24 +275,48 @@ namespace Steel_2._0
 
 		}
 
-		public int getInstallProgress()
+        static double parseProgressString(string progress)
+        {
+            // you never know
+            if (progress == null)
+            {
+                return 0;
+            }
+
+            // "... 49.5% ...." => "49.5"
+            int endProgress = progress.LastIndexOf('%');
+            int beginProgress = progress.Substring(0, endProgress).LastIndexOf(' ');
+            string stringProgress = progress.Substring(beginProgress + 1, endProgress - beginProgress - 1);
+
+            // "49.5" => 49.5
+            double returnValue = 0;
+            double.TryParse(stringProgress, out returnValue);
+
+            return returnValue;
+        }
+
+		public void updateProgress(string statusFile)
 		{
-			int ret = 0;
-			if (_isInstalling) {
-				if (_installProgress != null) {
-					string text = _installProgress.ReadToEnd();
-					string[] lines = text.Split('\n');
-					if (lines.Length > 1) {
-						int progress_loc = lines[1].LastIndexOf('%');
-						string progress = lines[1].Substring(progress_loc - 4, 3);
-						if (progress.Contains(".")) {
-							progress = progress.Substring(0, progress.IndexOf('.'));
-						}
-						int.TryParse(progress, out ret);
-					}
-				}
-			}
-			return ret;
+            FileStream logFileStream = new FileStream(statusFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            StreamReader logFileReader = new StreamReader(logFileStream);
+
+            while (!logFileReader.EndOfStream)
+            {
+                try
+                {
+                    string line = logFileReader.ReadLine();
+                    progress = Math.Max(parseProgressString(line), progress);
+                }
+                catch
+                {
+                    // todo
+                }
+            }
+
+            // Clean up
+            logFileReader.Close();
+            logFileStream.Close();
+
 		}
 
 		public int startTorrent(bool seeding = false)
@@ -428,6 +425,7 @@ namespace Steel_2._0
 		public void play(int index)
 		{
 			TorrentEngine.pauseAll();
+            TorrentEngine.saveStatus();
 
             string executable = Settings.Default.installPath + title + @"\" + _executables[index].file;
 
