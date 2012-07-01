@@ -39,7 +39,6 @@ namespace Steel_2._0
 
 		public bool installed = false;
 
-		private StreamReader _installProgress;
 
 		private WebClient _downloader = new WebClient();
 
@@ -232,7 +231,7 @@ namespace Steel_2._0
             
             try {
 			    _downloader.DownloadFile(iconURL(pvExe.icon), iconFile);
-			} catch (WebException e) {
+			} catch {
 			    return;
 			    //todo
 			}

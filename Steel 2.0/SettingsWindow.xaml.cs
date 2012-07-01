@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Forms;
 using Steel_2._0.Properties;
+using System.IO;
 
 namespace Steel_2._0
 {
@@ -62,6 +63,10 @@ namespace Steel_2._0
 			Settings.Default.lanServerURL = txtLanServer.Text.EndsWith(@"/", StringComparison.InvariantCulture) ? txtLanServer.Text : txtLanServer.Text + "/";
 			Settings.Default.steelServerURL = txtSteelServer.Text.EndsWith(@"/" , StringComparison.InvariantCulture) ? txtSteelServer.Text : txtSteelServer.Text + "/"; ;
 
+            if (!Directory.Exists(Settings.Default.Directory))
+            {
+                Directory.CreateDirectory(Settings.Default.Directory);
+            }
 			this.Close();
 			
 		}

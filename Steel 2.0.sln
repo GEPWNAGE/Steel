@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steel 2.0", "Steel 2.0\Steel 2.0.csproj", "{FA2896E1-7B09-4589-8202-EE6A8C62F595}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "SteelSetup", "SteelSetup\SteelSetup.vdproj", "{0EB62772-549C-4CCB-9B3B-07462AEE12B9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -13,6 +15,8 @@ Global
 		{FA2896E1-7B09-4589-8202-EE6A8C62F595}.Debug|x86.Build.0 = Debug|x86
 		{FA2896E1-7B09-4589-8202-EE6A8C62F595}.Release|x86.ActiveCfg = Release|x86
 		{FA2896E1-7B09-4589-8202-EE6A8C62F595}.Release|x86.Build.0 = Release|x86
+		{0EB62772-549C-4CCB-9B3B-07462AEE12B9}.Debug|x86.ActiveCfg = Debug
+		{0EB62772-549C-4CCB-9B3B-07462AEE12B9}.Release|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

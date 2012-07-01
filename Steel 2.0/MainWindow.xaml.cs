@@ -40,6 +40,7 @@ namespace Steel_2._0
 			Directory.CreateDirectory(Settings.Default.downloadPath);
 			Directory.CreateDirectory(Settings.Default.installPath);
 			Directory.CreateDirectory(Settings.Default.torrentPath);
+            Directory.CreateDirectory(Settings.Default.Directory + "icons");
 
 			GameList lst = new GameList(Settings.Default.steelServerURL + "xml.php", true);
 			TorrentEngine.init();
