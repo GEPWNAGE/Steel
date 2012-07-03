@@ -25,9 +25,9 @@ namespace Steel_2._0
 		{
 			InitializeComponent();
 			txtDir.Text = Settings.Default.Directory;
-			txtLanServer.Text = Settings.Default.lanServerURL;
 			txtSteelServer.Text = Settings.Default.steelServerURL;
 			txtPort.Text = Settings.Default.torrentPort.ToString();
+            CheckShortcut.IsChecked = Settings.Default.createShortcuts;
 		}
 
 		private void btnBrowse_Click(object sender, RoutedEventArgs e)
@@ -54,13 +54,16 @@ namespace Steel_2._0
 				return;
 			}
 
+
+            // save settings
+            Settings.Default.createShortcuts = (bool)CheckShortcut.IsChecked;
+
 			Settings.Default.Directory = txtDir.Text.EndsWith(@"\") ? txtDir.Text : txtDir.Text + @"\";
 			Settings.Default.downloadPath = txtDir.Text + "downloads\\";
 			Settings.Default.installPath = txtDir.Text + "games\\";
 			Settings.Default.torrentPath = txtDir.Text + "torrents\\";
 			Settings.Default.xmlPath = txtDir.Text + "gamelist.xml";
 
-			Settings.Default.lanServerURL = txtLanServer.Text.EndsWith(@"/", StringComparison.InvariantCulture) ? txtLanServer.Text : txtLanServer.Text + "/";
 			Settings.Default.steelServerURL = txtSteelServer.Text.EndsWith(@"/" , StringComparison.InvariantCulture) ? txtSteelServer.Text : txtSteelServer.Text + "/"; ;
 
             if (!Directory.Exists(Settings.Default.Directory))
@@ -75,5 +78,15 @@ namespace Steel_2._0
 		{
 			this.Close();
 		}
+
+        private void checkBox1_Checked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
 	}
 }

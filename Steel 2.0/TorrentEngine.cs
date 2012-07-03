@@ -38,6 +38,7 @@ namespace Steel_2._0
         public static void saveStatus()
         {
             BEncodedList list = new BEncodedList();
+            if (managers == null) { return; }
             foreach (TorrentManager manager in managers)
             {
                 if (manager.HashChecked)

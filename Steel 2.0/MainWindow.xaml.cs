@@ -217,5 +217,10 @@ namespace Steel_2._0
             g.uninstall();
         }
 
+        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            
+        }
+
 	}
 }

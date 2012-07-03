@@ -287,6 +287,15 @@ namespace Steel_2._0
 			}
 			_isInstalling = false;
 			installed = true;
+
+            // shortcuts
+            if (Settings.Default.createShortcuts)
+            {
+                foreach (Exe exe in _executables)
+                {
+                    exe.createShortcut(gamePath());
+                }
+            }
              
 
 		}
