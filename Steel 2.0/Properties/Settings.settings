@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="steelServerURL" Type="System.String" Scope="User">
-      <Value Profile="(Default)">http://steel.gepwnage.lan</Value>
+      <Value Profile="(Default)">http://steel</Value>
     </Setting>
     <Setting Name="installPath" Type="System.String" Scope="User">
       <Value Profile="(Default)">c:\Steel\games\</Value>
@@ -25,9 +25,6 @@
     </Setting>
     <Setting Name="SettingsShown" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="lanServerURL" Type="System.String" Scope="User">
-      <Value Profile="(Default)">http://gepwnage.lan</Value>
     </Setting>
     <Setting Name="installedGames" Type="System.String" Scope="User">
       <Value Profile="(Default)" />

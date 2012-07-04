@@ -25,7 +25,7 @@ namespace Steel_2._0.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://steel.gepwnage.lan")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://steel")]
         public string steelServerURL {
             get {
                 return ((string)(this["steelServerURL"]));
@@ -121,18 +121,6 @@ namespace Steel_2._0.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://gepwnage.lan")]
-        public string lanServerURL {
-            get {
-                return ((string)(this["lanServerURL"]));
-            }
-            set {
-                this["lanServerURL"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string installedGames {
             get {
@@ -157,7 +145,7 @@ namespace Steel_2._0.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool createShortcuts {
             get {
                 return ((bool)(this["createShortcuts"]));

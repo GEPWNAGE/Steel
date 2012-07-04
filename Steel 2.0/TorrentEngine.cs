@@ -56,6 +56,7 @@ namespace Steel_2._0
 		public static int addTorrent(string pvURL)
 		{
 			Torrent torrent = Torrent.Load(pvURL);
+            
 			TorrentManager manager = new TorrentManager(torrent, Settings.Default.downloadPath, _torrentDefaults);
 
             // make sure this torrent is new

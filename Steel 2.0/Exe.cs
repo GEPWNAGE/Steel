@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using IWshRuntimeLibrary;
 
 namespace Steel_2._0
 {
@@ -11,27 +12,23 @@ namespace Steel_2._0
 		public string file;
 		public string icon;
 		public string title;
-
+        private WshShellClass WshShell;
 
         public void createShortcut(string gamePath)
         {
+
+
+            WshShell = new WshShellClass();
+            IWshRuntimeLibrary.IWshShortcut GameShortcut;
+
             string deskDir = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
 
-            try
-            {
-                StreamWriter writer = new StreamWriter(deskDir + "\\" + title + ".url");
-                string app = gamePath + file;
-                writer.WriteLine("[InternetShortcut]");
-                writer.WriteLine("URL=file:///" + app);
-                writer.WriteLine("IconIndex=0");
-                string icon = app.Replace('\\', '/');
-                writer.WriteLine("IconFile=" + icon);
-                writer.Flush();
-            }
-            catch
-            {
-                // failed
-            }
+            GameShortcut = (IWshRuntimeLibrary.IWshShortcut)WshShell.CreateShortcut(deskDir + "\\" + title + ".lnk");
+            GameShortcut.TargetPath = gamePath + file;
+            GameShortcut.Description = title;
+            GameShortcut.IconLocation = gamePath + file;
+            GameShortcut.WorkingDirectory = gamePath;
+            GameShortcut.Save();
         }
 	}
 

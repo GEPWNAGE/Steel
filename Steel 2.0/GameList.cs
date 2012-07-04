@@ -27,6 +27,8 @@ namespace Steel_2._0
 			   _downloader = new WebClient();
 			   _downloader.DownloadFile(xmlURL, Settings.Default.xmlPath);
 			}
+
+
 			
 			XmlDocument parser = new XmlDocument();
 			parser.Load(Settings.Default.xmlPath);
