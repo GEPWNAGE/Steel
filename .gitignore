@@ -1,0 +1,7 @@
+*~
+*.bak
+*/bin/*
+*/obj/*
+Thumbs.db
+*.suo
+*.pdb
