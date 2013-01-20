@@ -10,7 +10,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Threading;
 using System.IO;
 using Steel_2._0.Properties;
@@ -30,25 +29,31 @@ namespace Steel_2._0
 
 		private void Window_Loaded(object sender, RoutedEventArgs e)
 		{
+            TorrentEngine.init();
+
 			if (!Settings.Default.SettingsShown) {
 				SettingsWindow settings = new SettingsWindow();
 				settings.ShowDialog();
 				Settings.Default.SettingsShown = true;
 			}
 
+
 			Directory.CreateDirectory(Settings.Default.Directory);
 			Directory.CreateDirectory(Settings.Default.downloadPath);
 			Directory.CreateDirectory(Settings.Default.installPath);
 			Directory.CreateDirectory(Settings.Default.torrentPath);
-            Directory.CreateDirectory(Settings.Default.Directory + "icons");
+			Directory.CreateDirectory(Path.Combine(Settings.Default.Directory,"icons"));
 
 			GameList lst = new GameList(Settings.Default.steelServerURL + "xml.php", true);
-			TorrentEngine.init();
 			dgrGames.ItemsSource = lst.list;
 
 			Thread updateNetwork = new Thread(updateNetwork_t);
 			updateNetwork.IsBackground = true;
 			updateNetwork.Start();
+
+            if (lst.offlineModus) {
+                this.Title += " (Offline Modus)";
+            }
 		}
 
 		private void btnInstall_Click(object sender, RoutedEventArgs e)
@@ -64,16 +69,29 @@ namespace Steel_2._0
 			Game g = ((FrameworkElement)sender).DataContext as Game;
 			selectedGame = g;
 
-            if (g._isInstalling || g._isDownloading)
-            {
+			if (g._isInstalling)
+			{
+				return;
+			}
+
+            if (g._isDownloading) {
+                if (g._isPaused) {
+                    // resume torrent
+                    g.resumeTorrent();
+                }
+                else {
+                    // pause torrent
+                    g.pauseTorrent();
+                }
+
                 return;
             }
 
-            if (!g.installed)
-            {
-                g.downloadAndInstall();
-                return;
-            }
+			if (!g.installed)
+			{
+				g.downloadAndInstall();
+				return;
+			}
 
 			if (g.exeCount > 1) {
 				Button b = ((FrameworkElement)sender) as Button;
@@ -137,11 +155,11 @@ namespace Steel_2._0
 			settings.ShowDialog();
 		}
 
-        
+		
 		private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
 			Settings.Default.Save();
-            TorrentEngine.saveStatus();
+			TorrentEngine.saveStatus();
 		}
 
 		private void btnDownload_Click(object sender , RoutedEventArgs e)
@@ -167,7 +185,7 @@ namespace Steel_2._0
 		{
 			while (true) {
 				Thread.Sleep(1000);
-				UpdateNetworkLabel("Down: " + TorrentEngine.getTotalDownSpeed().ToString() + " Up: " + TorrentEngine.getTotalUpSpeed().ToString());
+				UpdateNetworkLabel("Down: " + TorrentEngine.getTotalDownSpeed().ToString() + " KBps Up: " + TorrentEngine.getTotalUpSpeed().ToString()+" KBps");
 			}
 		}
 
@@ -178,7 +196,7 @@ namespace Steel_2._0
 		}
 
 
-        /*
+		/*
 		private void btnRemove_Click(object sender, RoutedEventArgs e)
 		{
 			Game g = ((FrameworkElement)sender).DataContext as Game;
@@ -209,17 +227,22 @@ namespace Steel_2._0
 			b.ContextMenu.IsOpen = true;
 		}*/
 
-        private void btnUninstall_Click(object sender, RoutedEventArgs e)
-        {
-            Game g = ((FrameworkElement)sender).DataContext as Game;
-            selectedGame = g;
+		private void btnUninstall_Click(object sender, RoutedEventArgs e)
+		{
+			Game g = ((FrameworkElement)sender).DataContext as Game;
+			selectedGame = g;
 
-            g.uninstall();
-        }
+			g.uninstall();
+		}
 
-        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+		private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+		{
+			
+		}
+
+        private void dgrGames_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            
+
         }
 
 	}

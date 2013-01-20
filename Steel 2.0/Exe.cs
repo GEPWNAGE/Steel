@@ -12,24 +12,24 @@ namespace Steel_2._0
 		public string file;
 		public string icon;
 		public string title;
-        private WshShellClass WshShell;
+		private WshShellClass WshShell;
 
-        public void createShortcut(string gamePath)
-        {
+		public void createShortcut(string gamePath)
+		{
 
 
-            WshShell = new WshShellClass();
-            IWshRuntimeLibrary.IWshShortcut GameShortcut;
+			WshShell = new WshShellClass();
+			IWshRuntimeLibrary.IWshShortcut GameShortcut;
 
-            string deskDir = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+			string deskDir = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
 
-            GameShortcut = (IWshRuntimeLibrary.IWshShortcut)WshShell.CreateShortcut(deskDir + "\\" + title + ".lnk");
-            GameShortcut.TargetPath = gamePath + file;
-            GameShortcut.Description = title;
-            GameShortcut.IconLocation = gamePath + file;
-            GameShortcut.WorkingDirectory = gamePath;
-            GameShortcut.Save();
-        }
+			GameShortcut = (IWshRuntimeLibrary.IWshShortcut)WshShell.CreateShortcut(Path.Combine(deskDir,title + ".lnk"));
+			GameShortcut.TargetPath = Path.Combine(gamePath,file);
+			GameShortcut.Description = title;
+			GameShortcut.IconLocation = Path.Combine(gamePath,file);
+			GameShortcut.WorkingDirectory = gamePath;
+			GameShortcut.Save();
+		}
 	}
 
 }

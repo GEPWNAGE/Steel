@@ -9,6 +9,8 @@ using System.IO;
 using System.Text;
 using System.Windows;
 using System.Security.Principal;
+using System.Globalization;
+using System.Windows.Media;
 
 
 namespace Steel_2._0
@@ -25,19 +27,19 @@ namespace Steel_2._0
 			}
 		}
 
-		private string _id;
-		private string _version;
 		private string _title;
 		private string _size;
 
 		private List<Exe> _executables;
 		private int _torrentID = -1;
 		public bool _isDownloading;
+        public bool _isPaused;
 		public bool _isInstalling;
-        public double progress = -1;
+		public double progress = -1;
 
 
 		public bool installed = false;
+		public bool running = false;
 
 
 		private WebClient _downloader = new WebClient();
@@ -52,54 +54,47 @@ namespace Steel_2._0
 			get { return _executables.Count; }
 		}
 
-		public string id
-		{
-			get { return _id; }
-			set { _id = value; }
-		}
-
-		public string version
-		{
-			get { return _version; }
-			set { _version = value; }
-		}
-
 		public string title
 		{
 			get { return _title; }
 			set { _title = value; }
 		}
 
-        public string buttonText
-        {
-            get
-            {
-                if (_isInstalling)
-                {
-                    return "Installing...";
-                }
-                else if (_isDownloading)
-                {
-                    return "Downloading...";
-                }
-                else if (installed)
-                {
-                    return "Play";
-                }
-                else
-                {
-                    return "Install";
-                }
-            }
-        }
+		public string buttonText
+		{
+			get
+			{
+				if (_isInstalling)
+				{
+					return "Installing...";
+				}
+				else if (_isDownloading)
+				{
+                    if (!_isPaused) {
+                        return "Pause";
+                    }
+                    else {
+                        return "Resume";
+                    }
+				}
+				else if (installed)
+				{
+					return "Play";
+				}
+				else
+				{
+					return "Install";
+				}
+			}
+		}
 
-        bool buttonEnabled
-        {
-            get
-            {
-                return !_isInstalling && !_isDownloading;
-            }
-        }
+		bool buttonEnabled
+		{
+			get
+			{
+				return !_isInstalling;
+			}
+		}
 
 		public string size
 		{
@@ -117,66 +112,92 @@ namespace Steel_2._0
 		public void updateStatus()
 		{
 			OnPropertyChanged("status");
-            OnPropertyChanged("buttonText");
-            OnPropertyChanged("buttonEnabled");
-            OnPropertyChanged("uninstallButtonVisibility");
+			OnPropertyChanged("buttonText");
+			OnPropertyChanged("buttonEnabled");
+			OnPropertyChanged("uninstallButtonVisibility");
+            OnPropertyChanged("textColor");
 		}
+
+        public Brush textColor
+        {
+            get {
+                if (_isDownloading || _isInstalling) {
+                    return new SolidColorBrush(Colors.LightGreen);
+                } else if(!installed){
+                    return new SolidColorBrush(Color.FromRgb(180, 180, 180));
+                }
+
+                return new SolidColorBrush(Colors.White);
+            }
+        }
 
 		public string status
 		{
 			get
 			{
+                if (_isDownloading && _isPaused && !installed) {
+                    return "Download paused";
+                }
+
 				if (_isDownloading && !installed)
-					return "Downloading... (" + getDownloadProgress().ToString() + 
-											"%, Down: " + getDownloadSpeed().ToString()  + 
-											" KBps, Up: " + getUploadSpeed().ToString() +
-											" KBps, Seeds: " + TorrentEngine.getSeeds(_torrentID).ToString() + 
-											", Peers: " + TorrentEngine.getPeers(_torrentID).ToString() + ")";
+					return "Downloading... (" + getDownloadProgress().ToString() + "% Speed: " + getDownloadSpeed().ToString() + " KBps [" + TorrentEngine.getSeeds(_torrentID).ToString() + "/" + TorrentEngine.getPeers(_torrentID).ToString() + "])";
 				if (_isInstalling)
-                    if (progress == -1)
-                    {
-                        return "Installing...";
-                    }
-                    else
-                    {
-                        return "Installing... (" + progress + "%)";
-                    }
+					if (progress == -1)
+					{
+						return "Installing...";
+					}
+					else
+					{
+						return "Installing... (" + progress + "%)";
+					}
 				if (installed)
-                    if (getDownloadProgress() == -1)
-                    {
-                        return "Ready";
-                    }
-                    else if (getDownloadProgress() < 100)
-                    {
-                        return "Ready, checking (" + getDownloadProgress() + "%)";
-                    }
-                    else
-                    {
-                        return "Ready, seeding";
-                    }
-                return "Not installed";
-			
+					if (getDownloadProgress() == -1)
+					{
+						return "Ready";
+					}
+					else if (getDownloadProgress() < 100)
+					{
+						return "Ready, checking (" + getDownloadProgress() + "%)";
+					}
+					else
+					{
+						return "Ready, seeding";
+					}
+				return "Not installed";
 			}
 		}
 
-        public string uninstallButtonVisibility
-        {
+		public string uninstallButtonVisibility
+		{
+			get
+			{
+				if ((installed || _isDownloading) && !_isInstalling)
+				{
+					return "visible";
+				}
+				else
+				{
+					return "hidden";
+				}
+			}
+		}
+
+        public string uninstallButtonText {
             get
             {
-                if (installed)
-                {
-                    return "visible";
+                if (installed) {
+                    return "Uninstall";
                 }
-                else
-                {
-                    return "hidden";
+                else {
+                    return "Cancel";
                 }
             }
         }
 
+
 		public string icon(int index)
 		{
-			return Settings.Default.Directory + "icons\\" + _executables[index].icon; 
+			return Path.Combine(Path.Combine(Settings.Default.Directory,"icons"),_executables[index].icon); 
 		}
 
 
@@ -187,32 +208,33 @@ namespace Steel_2._0
 
 		private string torrentURL()
 		{
-			return Settings.Default.steelServerURL + "/torrent.php?id=" + _id;
+            return Settings.Default.steelServerURL + "/torrent.php?file=" + Uri.EscapeUriString(_title);
 		}
 
 		public string torrentPath()
 		{
-			return Settings.Default.torrentPath + @"\" + _title + ".torrent";
+			return Path.Combine(Settings.Default.torrentPath,_title + ".torrent");
 		}
 
-        public string gamePath()
-        {
-            return Settings.Default.installPath + _title + "\\";
-        }
+		public string gamePath()
+		{
+			return Path.Combine(Settings.Default.installPath, _title);
+		}
 
 		private string downloadPath()
 		{
-			return Settings.Default.downloadPath + _title + ".arc";
+			return Path.Combine(Settings.Default.downloadPath,_title + ".arc");
 		}
 
 		private string iconURL(string pvIconFileName)
 		{
-			return Settings.Default.steelServerURL + "/icon/" + pvIconFileName;
+			return Settings.Default.steelServerURL + "/icon.php?file=" + pvIconFileName;
 		}
 
 		public Game()
 		{
 			_isDownloading = false;
+            _isPaused = false;
 			_isInstalling = false;
 			installed = false;
 			_executables = new List<Exe>();
@@ -220,20 +242,20 @@ namespace Steel_2._0
 
 		public void AddExe(Exe pvExe)
 		{
-            _executables.Add(pvExe);
-            string iconFile = Settings.Default.Directory + "icons\\" + pvExe.icon;
+			_executables.Add(pvExe);
+			string iconFile = Settings.Default.Directory + "icons\\" + pvExe.icon;
 
-            // check if we need to download the icon
-            if (File.Exists(iconFile))
-            {
-                return;
-            }
-            
-            try {
-			    _downloader.DownloadFile(iconURL(pvExe.icon), iconFile);
+			// check if we need to download the icon
+			if (File.Exists(iconFile))
+			{
+				return;
+			}
+			
+			try {
+				_downloader.DownloadFile(iconURL(pvExe.icon), iconFile);
 			} catch {
-			    return;
-			    //todo
+				return;
+				//todo
 			}
 		}
 
@@ -244,124 +266,133 @@ namespace Steel_2._0
 			extractThread.Start();
 		}
 
-        void p_OutputDataReceived(object sender, DataReceivedEventArgs e)
-        {
-            Console.WriteLine("Received from standard out: " + e.Data);
-        }
-
 		public void extract_t()
 		{		
 			_isInstalling = true;
 
-            System.Diagnostics.Process proc0 = new System.Diagnostics.Process();
-            proc0.StartInfo.FileName = "cmd";
-            Directory.CreateDirectory(gamePath());
-            proc0.StartInfo.WorkingDirectory = gamePath();
-            
-            string statusFile = proc0.StartInfo.WorkingDirectory+"status_"+id+".txt";
-            string command = "arc x -y \"" + downloadPath() + "\" > \""+statusFile+"\"";
-            proc0.StartInfo.Arguments = "/C " + command;
-            proc0.StartInfo.CreateNoWindow = true;
-            proc0.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-            proc0.Start();
+			System.Diagnostics.Process proc0 = new System.Diagnostics.Process();
+			proc0.StartInfo.FileName = "cmd";
+			Directory.CreateDirectory(gamePath());
+			proc0.StartInfo.WorkingDirectory = gamePath();
+			
+			string statusFile = proc0.StartInfo.WorkingDirectory+"status_"+title+".txt";
+			string command = "arc x -y \"" + downloadPath() + "\" > \""+statusFile+"\"";
+			proc0.StartInfo.Arguments = "/C " + command;
+			proc0.StartInfo.CreateNoWindow = true;
+			proc0.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+			proc0.Start();
 
-            while (!proc0.HasExited)
-            {
-                if (File.Exists(statusFile))
-                {
-                    updateProgress(statusFile);
-                }
-               
-                Thread.Sleep(500);
-            }
-            
-            string setupFile = Settings.Default.installPath + title + @"\" + "setup.bat";
+			while (!proc0.HasExited)
+			{
+				if (File.Exists(statusFile))
+				{
+					updateProgress(statusFile);
+				}
+			   
+				Thread.Sleep(500);
+			}
+
+            // delete the status file
+            File.Delete(statusFile);
+			
+			string setupFile = Settings.Default.installPath + title + @"\" + "setup.bat";
 			if(File.Exists(setupFile))
-            {
-                ProcessStartInfo processInfo = new ProcessStartInfo();
-                processInfo.Verb = "runas"; // administrator rights
-                processInfo.FileName = setupFile;
-                processInfo.WindowStyle = ProcessWindowStyle.Minimized;
-                processInfo.WorkingDirectory = Settings.Default.installPath + title;
-                Process.Start(processInfo);
+			{
+				ProcessStartInfo processInfo = new ProcessStartInfo();
+				processInfo.Verb = "runas"; // administrator rights
+				processInfo.FileName = setupFile;
+				processInfo.WindowStyle = ProcessWindowStyle.Minimized;
+				processInfo.WorkingDirectory = Settings.Default.installPath + title;
+				Process.Start(processInfo);
 			}
 			_isInstalling = false;
 			installed = true;
 
-            // shortcuts
-            if (Settings.Default.createShortcuts)
-            {
-                foreach (Exe exe in _executables)
-                {
-                    exe.createShortcut(gamePath());
-                }
-            }
-             
+			// shortcuts
+			if (Settings.Default.createShortcuts)
+			{
+				foreach (Exe exe in _executables)
+				{
+					exe.createShortcut(gamePath());
+				}
+			}
+			 
 
 		}
 
-        static double parseProgressString(string progress)
-        {
-            // you never know
-            if (progress == null)
-            {
-                return 0;
-            }
+		static double parseProgressString(string progress)
+		{
+			// you never know
+			if (progress == null)
+			{
+				return 0;
+			}
 
-            // "... 49.5% ...." => "49.5"
-            int endProgress = progress.LastIndexOf('%');
-            int beginProgress = progress.Substring(0, endProgress).LastIndexOf(' ');
-            string stringProgress = progress.Substring(beginProgress + 1, endProgress - beginProgress - 1);
+			// "... 49.5% ...." => "49.5"
+			int endProgress = progress.LastIndexOf('%');
+			int beginProgress = progress.Substring(0, endProgress).LastIndexOf(' ');
+			string stringProgress = progress.Substring(beginProgress + 1, endProgress - beginProgress - 1);
 
-            // "49.5" => 49.5
-            double returnValue = 0;
-            double.TryParse(stringProgress, out returnValue);
+			// "49.5" => 49.5
+			double returnValue = 0;
+			double.TryParse(stringProgress, NumberStyles.Number, CultureInfo.CreateSpecificCulture ("en-US"), out returnValue);
 
-            return returnValue;
-        }
+			return returnValue;
+		}
 
 		public void updateProgress(string statusFile)
 		{
-            FileStream logFileStream = new FileStream(statusFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-            StreamReader logFileReader = new StreamReader(logFileStream);
+			FileStream logFileStream = new FileStream(statusFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+			StreamReader logFileReader = new StreamReader(logFileStream);
 
-            while (!logFileReader.EndOfStream)
-            {
-                try
-                {
-                    string line = logFileReader.ReadLine();
-                    progress = Math.Max(parseProgressString(line), progress);
-                }
-                catch
-                {
-                    // todo
-                }
-            }
+			while (!logFileReader.EndOfStream)
+			{
+				try
+				{
+					string line = logFileReader.ReadLine();
+					progress = Math.Max(parseProgressString(line), progress);
+				}
+				catch
+				{
+					// todo
+				}
+			}
 
-            // Clean up
-            logFileReader.Close();
-            logFileStream.Close();
+			// Clean up
+			logFileReader.Close();
+			logFileStream.Close();
 
 		}
 
 		public int startTorrent(bool seeding = false)
 		{
-            if (!seeding)
-            {
-                _isDownloading = true;
-            }
+			if (!seeding)
+			{
+				_isDownloading = true;
+			}
 			_downloader.DownloadFileCompleted += new AsyncCompletedEventHandler(downloader_DownloadFileCompleted);
 			try {
-				_downloader.DownloadFileAsync(new Uri(torrentURL()), torrentPath(), _id);
+				_downloader.DownloadFileAsync(new Uri(torrentURL()), torrentPath(), title);
 			} catch (WebException) {
 				return 1;
 			} catch (NotSupportedException) {
 				return 2;
 			}
-			if(!Settings.Default.downloadedGames.Contains(_id + @":"))
-				Settings.Default.downloadedGames += (_id + @":");
+
 			return 0;
 		}
+
+        public void pauseTorrent()
+        {
+            TorrentEngine.pauseTorrent(_torrentID);
+            _isPaused = true;
+        }
+
+        public void resumeTorrent()
+        {
+            TorrentEngine.resumeTorrent(_torrentID);
+            _isPaused = false;
+        }
 
 		private void downloadAndInstall_t()
 		{
@@ -371,7 +402,7 @@ namespace Steel_2._0
 			}
 			_isDownloading = false;
 			this.install();
-            installed = true;
+			installed = true;
 		}
 
 		public void downloadAndInstall()
@@ -410,10 +441,10 @@ namespace Steel_2._0
 
 		void downloader_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
 		{
-            if (_torrentID == -1)
-            {
-                _torrentID = TorrentEngine.addTorrent(torrentPath());
-            }
+			if (_torrentID == -1)
+			{
+				_torrentID = TorrentEngine.addTorrent(torrentPath());
+			}
 			Thread downloadMonitor = new Thread(downloadMonitor_t);
 			downloadMonitor.IsBackground = true;
 			downloadMonitor.Start();
@@ -446,29 +477,59 @@ namespace Steel_2._0
 			}
 		}
 
+		private void process_Exited(object sender, EventArgs e)
+		{
+			this.running = false;
+			TorrentEngine.resumeAll();
+		}
+
+		private void sendPlayingStatus()
+		{
+			WebClient _downloader = new WebClient();
+			try {
+				_downloader.DownloadFile(Settings.Default.steelServerURL + "/playing.php?game=" + _title, "tmp");
+			} catch {
+				
+			}
+		}
 
 		public void play(int index)
 		{
 			TorrentEngine.pauseAll();
-            TorrentEngine.saveStatus();
+			TorrentEngine.saveStatus();
 
-            string executable = Settings.Default.installPath + title + @"\" + _executables[index].file;
+			string executable = Path.Combine(Path.Combine(Settings.Default.installPath, _title), _executables[index].file);
 
 
-            if (!File.Exists(executable))
-            {
-                return;
-            }
+			if (!File.Exists(executable))
+			{
+				return;
+			}
 
-            Process gameProcess = new Process();
-            gameProcess.StartInfo.FileName = executable;
-            gameProcess.StartInfo.UseShellExecute = false;
-            gameProcess.StartInfo.WorkingDirectory = Settings.Default.installPath + title;
-            gameProcess.Start();
+			Process gameProcess = new Process();
+			gameProcess.StartInfo.FileName = executable;
+			gameProcess.StartInfo.UseShellExecute = false;
+			gameProcess.StartInfo.WorkingDirectory = Path.Combine(Settings.Default.installPath, _title);
+			gameProcess.Start();
 
-            gameProcess.WaitForExit();
+			gameProcess.EnableRaisingEvents = true;
+			gameProcess.Exited += new EventHandler(process_Exited);
 
-			TorrentEngine.resumeAll();
+			this.running = true;
+			int counter = 0;
+
+			sendPlayingStatus();
+			while (this.running) {
+				counter++;
+				if (counter == 60*5) {
+					sendPlayingStatus();
+					counter = 0;
+				}
+
+				Thread.Sleep(1000);
+				
+			}
+
 		}
 
 		void web_UploadDataCompleted(object sender, UploadDataCompletedEventArgs e)
@@ -476,38 +537,38 @@ namespace Steel_2._0
 			throw new NotImplementedException();
 		}
 
-        public void uninstall()
-        {
-            if (Directory.Exists(gamePath()))
-            {
-                try
-                {
-                    Directory.Delete(gamePath(), true);
-                }
-                catch
-                {
-                    // :(
-                }
+		public void uninstall()
+		{
+			if (Directory.Exists(gamePath()))
+			{
+				try
+				{
+					Directory.Delete(gamePath(), true);
+				}
+				catch
+				{
+					// :(
+				}
 
-            }
+			}
 
-            TorrentEngine.removeTorrent(_torrentID);
+			TorrentEngine.removeTorrent(_torrentID);
 
-            if (File.Exists(downloadPath()))
-            {
-                File.Delete(downloadPath());
-            }
+			if (File.Exists(downloadPath()))
+			{
+				File.Delete(downloadPath());
+			}
 
-            if (File.Exists(torrentPath()))
-            {
-                File.Delete(torrentPath());
-            }
+			if (File.Exists(torrentPath()))
+			{
+				File.Delete(torrentPath());
+			}
 
-            installed = false;
-            _isInstalling = false;
-            _isDownloading = false;
-            _torrentID = -1;
-        }
+			installed = false;
+			_isInstalling = false;
+			_isDownloading = false;
+			_torrentID = -1;
+		}
 
 	}
 }

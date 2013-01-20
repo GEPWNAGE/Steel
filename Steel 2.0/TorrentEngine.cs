@@ -10,6 +10,7 @@ using System.Net;
 using MonoTorrent.BEncoding;
 using System.IO;
 using System.Threading;
+using System.Diagnostics;
 
 namespace Steel_2._0
 {
@@ -50,7 +51,7 @@ namespace Steel_2._0
             }
 
             // Write all the fast resume data to disk
-            File.WriteAllBytes(Settings.Default.Directory + "torrent.data", list.Encode());
+            File.WriteAllBytes(Path.Combine(Settings.Default.Directory,"torrent.data"), list.Encode());
         }
 
 		public static int addTorrent(string pvURL)
@@ -98,6 +99,16 @@ namespace Steel_2._0
             }
 		}
 
+        public static void pauseTorrent(int pvId)
+        {
+            _engine.Torrents[pvId].Pause();
+        }
+
+        public static void resumeTorrent(int pvId)
+        {
+            _engine.Torrents[pvId].Start();
+        }
+
 		public static int getDownSpeed(int pvID)
 		{
 			try {
@@ -106,6 +117,17 @@ namespace Steel_2._0
 				return 0;
 			}
 		}
+
+        public static int getUpSpeed(int pvID)
+        {
+            try {
+                return _engine.Torrents[pvID].Monitor.UploadSpeed / 1000;
+            }
+            catch (Exception) {
+                return 0;
+            }
+        }
+
 
 		public static bool downloadDone(int pvID)
 		{
@@ -116,21 +138,15 @@ namespace Steel_2._0
 			}
 		}
 
-		public static int getUpSpeed(int pvID)
-		{
-			try {
-				return _engine.Torrents[pvID].Monitor.UploadSpeed / 1000;
-			} catch (Exception) {
-				return 0;
-			}
-		}
-
 		public static void removeTorrent(int pvID)
 		{
             if (pvID >= 0 && pvID < _engine.Torrents.Count)
             {
+                _engine.Torrents[pvID].Stop();
                 _engine.Torrents[pvID].Dispose();
             }
+
+            
 		}
 
 		public static int getTotalDownSpeed()
@@ -145,9 +161,9 @@ namespace Steel_2._0
 
 		public static double getProgress(int pvID)
 		{
-			try{
-				return Math.Round(_engine.Torrents[pvID].Progress);
-			}catch(ArgumentOutOfRangeException){
+			try {
+				return Math.Round(_engine.Torrents[pvID].Progress,1);
+			} catch(ArgumentOutOfRangeException){
 				return 0;
 			}
 		}

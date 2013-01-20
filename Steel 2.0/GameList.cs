@@ -7,13 +7,16 @@ using Steel_2._0.Properties;
 using System.Xml;
 using System.IO;
 using System.Threading;
+using System.Diagnostics;
 
 namespace Steel_2._0
 {
 	class GameList
 	{
 		private List<Game> _list;
-		private WebClient _downloader;
+		private WebClient _downloader = new WebClient();
+
+        public bool offlineModus = false;
 
 		public List<Game> list
 		{
@@ -24,11 +27,19 @@ namespace Steel_2._0
 		{
 			_list = new List<Game>();
 			if (refresh || !File.Exists(Settings.Default.xmlPath)) {			   
-			   _downloader = new WebClient();
-			   _downloader.DownloadFile(xmlURL, Settings.Default.xmlPath);
+			   try {
+				_downloader.DownloadFile(xmlURL, Settings.Default.xmlPath+".tmp");
+
+				// download succesfully, update gamelist.xml
+                if (File.Exists(Settings.Default.xmlPath)) {
+                    File.Delete(Settings.Default.xmlPath);
+                }
+				File.Move(Settings.Default.xmlPath + ".tmp", Settings.Default.xmlPath);
+			   } catch {
+                   offlineModus = true;
+				   // download failed
+			   }
 			}
-
-
 			
 			XmlDocument parser = new XmlDocument();
 			parser.Load(Settings.Default.xmlPath);
@@ -38,17 +49,11 @@ namespace Steel_2._0
 				foreach (XmlNode game_element in gameNode.ChildNodes) {
 
 					List<string> exes = new List<string>();
-					if (game_element.Name == "id") {
-						g.id = game_element.InnerText;
-					}
-					if (game_element.Name == "versie") {
-						g.version = game_element.InnerText;
-					}
 					if (game_element.Name == "title") {
 						g.title = game_element.InnerText;
 					}
 					if (game_element.Name == "size") {
-						g.size = game_element.InnerText;
+                        g.size = game_element.InnerText;
 					}
 
 					if (game_element.Name == "exes") {
@@ -91,28 +96,28 @@ namespace Steel_2._0
 
 		private void checkGames()
 		{
-            foreach (Game game in _list)
-            {
-                if (Directory.Exists(game.gamePath()))
-                {
-                    game.installed = true;
-                }
+			foreach (Game game in _list)
+			{
+				if (Directory.Exists(game.gamePath()))
+				{
+					game.installed = true;
+				}
 
-                if (File.Exists(game.torrentPath()))
-                {
-                    if (!game.installed)
-                    {
-                        // resume downloading and install game
-                        game.downloadAndInstall();
-                    }
-                    else
-                    {
-                        // start seeding
-                        game.startTorrent(true);
-                    }
-                }
-            }
+				if (File.Exists(game.torrentPath()))
+				{
+					if (!game.installed)
+					{
+						// resume downloading and install game
+						game.downloadAndInstall();
+					}
+					else
+					{
+						// start seeding
+						game.startTorrent(true);
+					}
+				}
+			}
 		}
-        
+		
 	}
 }

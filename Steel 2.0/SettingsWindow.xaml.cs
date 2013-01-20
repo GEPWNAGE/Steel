@@ -9,7 +9,6 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using System.Windows.Forms;
 using Steel_2._0.Properties;
 using System.IO;
@@ -57,13 +56,12 @@ namespace Steel_2._0
 
             // save settings
             Settings.Default.createShortcuts = (bool)CheckShortcut.IsChecked;
-
 			Settings.Default.Directory = txtDir.Text.EndsWith(@"\") ? txtDir.Text : txtDir.Text + @"\";
-			Settings.Default.downloadPath = txtDir.Text + "downloads\\";
-			Settings.Default.installPath = txtDir.Text + "games\\";
-			Settings.Default.torrentPath = txtDir.Text + "torrents\\";
-			Settings.Default.xmlPath = txtDir.Text + "gamelist.xml";
-
+            Settings.Default.downloadPath = Path.Combine(txtDir.Text, "downloads");
+            Settings.Default.installPath = Path.Combine(txtDir.Text, "games");
+            Settings.Default.torrentPath = Path.Combine(txtDir.Text, "torrents");
+            Settings.Default.xmlPath = Path.Combine(txtDir.Text, "gamelist.xml");
+            
 			Settings.Default.steelServerURL = txtSteelServer.Text.EndsWith(@"/" , StringComparison.InvariantCulture) ? txtSteelServer.Text : txtSteelServer.Text + "/"; ;
 
             if (!Directory.Exists(Settings.Default.Directory))

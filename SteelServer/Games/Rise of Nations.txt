@@ -1,0 +1,2 @@
+nations.exe#Rise of Nations#nations.ico
+patriots.exe#Rise of Nations: Thrones and Patriots#patriots.ico
