@@ -1,0 +1,99 @@
+/***#-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-#***\
+\ W |    PRE-COMPILED PACKS FOR WLMP PROJECT    | W /
+/ L | - - - - - - - - - - - - - - - - - - - - - | L \
+\ M |         Copyright (C) 2006 - 2012         | M /
+/ P |  WLMP Project - http://wlmp-project.net/  | P \
+\***#-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-#***/
+
+// -- PACKAGE: LightTPD-1.4.30-4-IPv6-Win32-SSL -- //
+
+===================
+PACKAGE INFORMATION
+===================
+
+Package Name:             LightTPD-IPv6 (Win32) - SSL
+Package Type:             Binary
+Package Version:          1.4.30-4
+Revision:                 2826
+Release Date:             2012-02-28
+
+Status:                   Stable Release
+Language:                 English
+Compilation Platform:     i686-pc-cygwin (GCC-4.5.3)
+
+Author:                   Jan Kneschke, http://www.lighttpd.net/
+License:                  Revised BSD License
+
+Operating System:         Microsoft Windows 2000 / XP / 2003 / Vista / 2008 / 7
+
+Supported features:       IPv6, ZLib, BZip2, Crypt, SSL, PCRE, MySQL, LDAP,
+                          MemCache, FAM, LUA, XML, SQLite, GDBM
+
+Additions:                OpenSSL 0.9.8t
+
+Online documentation:     http://wiki.lighttpd.net/
+
+--------------------------------------
+Important changes since version 1.4.30
+--------------------------------------
+
+2012-02-28 - Release 4 / Tag: 1.4.30-4
+
+- New compile-time features added: XML, SQLite, GDBM.
+(All available features are enabled in this release)
+- Background mode has been restored. (except test mode, forced to onscreen)
+- getcwd() function of server has been fixed with pseudo-windows style path,
+e.g.: 'C:/Program Files/LightTPD'. Make sure that your root directory where
+you want to run the server from is the same as the installation path.
+(GenVars.cmd is unnecessary anymore, it has been removed from the package.)
+- Configuration path resolution has been fixed when drive letter was specified
+in the path. ('var.conf_dir' removed from variables.conf)
+- Disabled modules has been restored: mod_rrdtool, mod_trigger_b4_dl.
+- Cygwin's path warning solved, absolute path is necessary for cgi-based apps.
+('CYGWIN=nodosfilewarning' environment variable is set by the server.)
+- Command-line parameter fixes: test mode notice has been disabled with '-t'
+and '-p' options and '-?' added to the help option.
+- Sample virtual host configuration file added. (It isn't loaded by default)
+- include_shell doesn't work natively, it has been removed from lighttpd.conf.
+
+2012-02-07 - Release 3 / Tag: 1.4.30-3
+
+- New compile-time features added: FAM, memcached.
+- We have updated some libraries: MySQL 5.5.19, OpenSSL 0.9.8t, LUA 5.1.4.
+- 'lighttpd-' prefix removed from configuration files.
+(Default configuration file renamed to 'lighttpd.conf')
+- Auto-loaded modules removed from lighttpd.conf.
+- Some modules have been removed: mod_rrdtool, mod_trigger_b4_dl.
+(These modules have one or more issues under cygwin environment)
+- Documentation files have been restored to manual directory because
+some users needed it. Keep in mind that these files are outdated!
+- Mimetypes migrated to an external configuration file: 'mimetype.conf'.
+- Notice has been corrected in help option regarding background mode.
+- Configuration files use path variables from 'conf/variables.conf'.
+This file contains relative path as default, but you can generate absolute
+paths with 'GenVars.cmd'. This will fix some issue, like php's cgi_pathinfo.
+(After you run the installer this tool will automatically start)
+
+2012-01-14 - Release 2 / Tag: 1.4.30-2
+
+- New event-handler support added: libev.
+
+2012-01-09 - Release 1 / Tag: 1.4.30-1
+
+- IPv6 support added, but it doesn't bind IPv4 and IPv6 address at the same
+time. If you would like to run both modes, you must create separated
+configuration files for different address types and you can run servers in
+paralell mode. (NT kernel and cygwin issue)
+- Angel process has been removed. (It doesn't work under cygwin environment)
+- Server can't run in background. (Fixed cygwin minires and some other issues)
+- If you run LightTPD.exe without any option it will try to run in test mode
+with default path of modules and configuration file. (TestMode.bat removed)
+- Some directory have been renamed, relocated or deleted:
+lib -> renamed to modules (like apache),
+bin -> renamed to service,
+conf/lighttpd-user.conf -> renamed to conf/lighttpd-auth.user (it's not config),
+style -> deleted,
+doc -> deleted (outdated).
+- SSL-Gen.bat renamed to GenCert.cmd. (Cert generation target: cert/server.pem)
+- Log names have been simplified. (access.log, error.log)
+- Configuration and text files converted to CR/LF format. (Notepad compatible)

@@ -561,7 +561,12 @@ namespace Steel_2._0
 
 			if (File.Exists(torrentPath()))
 			{
-				File.Delete(torrentPath());
+                try {
+                    File.Delete(torrentPath());
+                }
+                catch {
+                    // keep torrent file
+                }
 			}
 
 			installed = false;

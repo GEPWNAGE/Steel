@@ -56,9 +56,15 @@ namespace Steel_2._0
 
 		public static int addTorrent(string pvURL)
 		{
-			Torrent torrent = Torrent.Load(pvURL);
-            
-			TorrentManager manager = new TorrentManager(torrent, Settings.Default.downloadPath, _torrentDefaults);
+            Torrent torrent;
+            TorrentManager manager;
+
+            try {
+                torrent = Torrent.Load(pvURL);
+                manager = new TorrentManager(torrent, Settings.Default.downloadPath, _torrentDefaults);
+            }  catch {
+                return -1;
+            }
 
             // make sure this torrent is new
             foreach (TorrentManager m in managers)
