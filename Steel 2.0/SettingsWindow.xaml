@@ -4,18 +4,20 @@
         Title="Settings" Height="270" Width="441" ResizeMode="NoResize" Icon="Steel_ICON.png" Loaded="Window_Loaded">
 
 			<Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-				<TextBox Height="23" HorizontalAlignment="Left" Margin="132,36,0,0" Name="txtDir" VerticalAlignment="Top" Width="176" TabIndex="1" />
-				<Label Content="Local directory" HorizontalAlignment="Left" Margin="12,34,0,169" Name="lblDir" />
-				<Button Content="Browse" Height="23" HorizontalAlignment="Left" Margin="314,35,0,0" Name="btnBrowse" VerticalAlignment="Top" Width="75" Click="btnBrowse_Click" TabIndex="2" />
+				<TextBox Height="23" HorizontalAlignment="Left" Margin="132,15,0,0" Name="txtDir" VerticalAlignment="Top" Width="176" TabIndex="1" />
+				<Label Content="Local directory" HorizontalAlignment="Left" Margin="12,13,0,190" Name="lblDir" />
+				<Button Content="Browse" Height="23" HorizontalAlignment="Left" Margin="314,14,0,0" Name="btnBrowse" VerticalAlignment="Top" Width="75" Click="btnBrowse_Click" TabIndex="2" />
 
-				<TextBox Height="23" HorizontalAlignment="Left" Margin="132,69,0,0" Name="txtSteelServer" VerticalAlignment="Top" Width="263" TabIndex="3" />
-				<Label Content="Steel server" Height="28" HorizontalAlignment="Left" Margin="12,67,0,0" Name="lblSteelServer" VerticalAlignment="Top" />
-        <TextBox Height="23" HorizontalAlignment="Left" Margin="132,102,0,0" Name="txtPort" VerticalAlignment="Top" Width="72" TabIndex="5" />
-				<Label Content="Torrent port" Height="28" HorizontalAlignment="Left" Margin="12,100,0,0" Name="lblPort" VerticalAlignment="Top" />
+				<TextBox Height="23" HorizontalAlignment="Left" Margin="132,48,0,0" Name="txtSteelServer" VerticalAlignment="Top" Width="263" TabIndex="3" />
+				<Label Content="Steel server" Height="28" HorizontalAlignment="Left" Margin="12,46,0,0" Name="lblSteelServer" VerticalAlignment="Top" />
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="132,116,0,0" Name="txtPort" VerticalAlignment="Top" Width="72" TabIndex="5" />
+				<Label Content="Torrent port" Height="28" HorizontalAlignment="Left" Margin="12,114,0,0" Name="lblPort" VerticalAlignment="Top" />
 		<Button Content="Save" Height="23" HorizontalAlignment="Left" Margin="12,196,0,0" Name="btnSave" VerticalAlignment="Top" Width="75" Click="btnSave_Click" IsDefault="True" TabIndex="6" />
 		<Button Content="Cancel" Height="23" HorizontalAlignment="Left" Margin="332,196,0,0" Name="btnCancel" VerticalAlignment="Top" Width="75" Click="btnCancel_Click" TabIndex="7" />
-        <CheckBox Height="16" HorizontalAlignment="Left" Margin="132,142,0,0" Name="CheckShortcut" VerticalAlignment="Top" Checked="checkBox1_Checked" IsChecked="True" />
-        <Label Content="Create shortcuts" Name="lblCheckShortcut" Height="28" HorizontalAlignment="Left" Margin="13,134,0,0" VerticalAlignment="Top" />
+        <CheckBox Height="16" HorizontalAlignment="Left" Margin="132,156,0,0" Name="CheckShortcut" VerticalAlignment="Top" Checked="checkBox1_Checked" IsChecked="True" />
+        <Label Content="Create shortcuts" Name="lblCheckShortcut" Height="28" HorizontalAlignment="Left" Margin="13,148,0,0" VerticalAlignment="Top" />
+        <Label Content="Nickname" Height="28" HorizontalAlignment="Left" Margin="13,80,0,0" Name="label1" VerticalAlignment="Top" />
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="132,80,0,0" Name="txtNickname" VerticalAlignment="Top" Width="263" TextChanged="textBox1_TextChanged" />
     </Grid>
 
 	

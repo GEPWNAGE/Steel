@@ -55,6 +55,9 @@ namespace Steel_2._0
 					if (game_element.Name == "size") {
                         g.size = game_element.InnerText;
 					}
+                    if (game_element.Name == "players") {
+                        g.players = game_element.InnerText;
+                    }
 
 					if (game_element.Name == "exes") {
 						foreach (XmlNode exe in game_element.ChildNodes) {

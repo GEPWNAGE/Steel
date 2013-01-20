@@ -26,6 +26,7 @@ namespace Steel_2._0
 			txtDir.Text = Settings.Default.Directory;
 			txtSteelServer.Text = Settings.Default.steelServerURL;
 			txtPort.Text = Settings.Default.torrentPort.ToString();
+            txtNickname.Text = Settings.Default.nickname;
             CheckShortcut.IsChecked = Settings.Default.createShortcuts;
 		}
 
@@ -61,6 +62,7 @@ namespace Steel_2._0
             Settings.Default.installPath = Path.Combine(txtDir.Text, "games");
             Settings.Default.torrentPath = Path.Combine(txtDir.Text, "torrents");
             Settings.Default.xmlPath = Path.Combine(txtDir.Text, "gamelist.xml");
+            Settings.Default.nickname = txtNickname.Text;
             
 			Settings.Default.steelServerURL = txtSteelServer.Text.EndsWith(@"/" , StringComparison.InvariantCulture) ? txtSteelServer.Text : txtSteelServer.Text + "/"; ;
 
@@ -83,6 +85,11 @@ namespace Steel_2._0
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged(object sender, TextChangedEventArgs e)
         {
 
         }

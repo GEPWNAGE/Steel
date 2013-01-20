@@ -34,7 +34,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-                <DataGridTextColumn Header="Game" Binding="{Binding title}" IsReadOnly="True" MinWidth="280">
+                <DataGridTextColumn Header="Game" Binding="{Binding title}" IsReadOnly="True" MinWidth="250">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="{x:Type TextBlock}">
                             <Setter Property="Foreground"
@@ -42,7 +42,14 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="Size" Binding="{Binding size}" IsReadOnly="True" MinWidth="50" />
+                <DataGridTextColumn Header="Players" Binding="{Binding playerCount}" IsReadOnly="True">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Setter Property="ToolTip" Value="{Binding playerList}" />
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>   
+                    <DataGridTextColumn Header="Size" Binding="{Binding size}" IsReadOnly="True" MinWidth="50" />
 				<DataGridTextColumn Header="Status" Binding="{Binding status}" IsReadOnly="True" MinWidth="290" />
 				
 				<DataGridTemplateColumn Header="Play" IsReadOnly="True" MinWidth="50">
@@ -74,8 +81,10 @@
             </DataGrid.Columns>
 
 		</DataGrid>
-		<Button Content="Settings" Grid.Row="1" Height="23" HorizontalAlignment="Right" Margin="0,0,12,10" Name="btnSettings" VerticalAlignment="Bottom"  Width="75" Click="btnSettings_Click" />
+
+        <Button Content="Settings" Grid.Row="1" Height="23" HorizontalAlignment="Right" Margin="0,0,12,10" Name="btnSettings" VerticalAlignment="Bottom"  Width="75" Click="btnSettings_Click" />
 		<Label Content="Down: 0 Up: 0" Grid.Row="1" Height="28" HorizontalAlignment="Left" Margin="0,5,0,0" Name="lblNetwork" VerticalAlignment="Top" Foreground="Gray" />
-	</Grid>
+        <Button Content="Refresh" Grid.Row="1" Height="23" HorizontalAlignment="Left" Margin="610,0,0,0" Name="button1" VerticalAlignment="Top" Width="75" Click="btnRefresh_Click"/>
+    </Grid>
 	
 </Window>

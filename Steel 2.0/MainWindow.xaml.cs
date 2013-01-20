@@ -54,7 +54,22 @@ namespace Steel_2._0
             if (lst.offlineModus) {
                 this.Title += " (Offline Modus)";
             }
+
+            // start thread that updates the gamelist every 5 minutes
+            Thread statusThread = new Thread(new ThreadStart(updateGamelist_t));
+            statusThread.Start();
 		}
+
+        private void updateGamelist_t()
+        {
+            while (true) {
+                this.Dispatcher.Invoke((Action)(() => {
+                    btnRefresh_Click(null, null);
+                }));
+                Thread.Sleep(1000 * 5 * 60);
+            }
+
+        }
 
 		private void btnInstall_Click(object sender, RoutedEventArgs e)
 		{
@@ -154,6 +169,16 @@ namespace Steel_2._0
 			SettingsWindow settings = new SettingsWindow();
 			settings.ShowDialog();
 		}
+
+        private void btnRefresh_Click(object sender, RoutedEventArgs e)
+        {
+            GameList lst = new GameList(Settings.Default.steelServerURL + "xml.php", true);
+            dgrGames.ItemsSource = lst.list;
+
+            if (!lst.offlineModus) {
+               this.Title = this.Title.Replace(" (Offline Modus)", "");
+            }
+        }
 
 		
 		private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)

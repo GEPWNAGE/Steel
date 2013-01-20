@@ -40,6 +40,7 @@ namespace Steel_2._0
 
 		public bool installed = false;
 		public bool running = false;
+        public string players = "";
 
 
 		private WebClient _downloader = new WebClient();
@@ -59,6 +60,25 @@ namespace Steel_2._0
 			get { return _title; }
 			set { _title = value; }
 		}
+
+        public int playerCount
+        {
+            get
+            {
+                if (this.players.Trim() == "") {
+                    return 0;
+                }
+                return this.players.Split(',').Length;
+            }
+        }
+
+        public string playerList
+        {
+            get
+            {
+                return this.players;
+            }
+        }
 
 		public string buttonText
 		{
@@ -487,7 +507,7 @@ namespace Steel_2._0
 		{
 			WebClient _downloader = new WebClient();
 			try {
-				_downloader.DownloadFile(Settings.Default.steelServerURL + "/playing.php?game=" + _title, "tmp");
+				_downloader.DownloadFile(Settings.Default.steelServerURL + "/playing.php?game=" + _title + "&nickname="+Settings.Default.nickname, "tmp");
 			} catch {
 				
 			}
