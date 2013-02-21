@@ -1,1 +1,79 @@
-<?phpinclude("config.php");require_once 'lib/torrent.php';error_reporting(E_ALL ^ E_NOTICE);$xml = new XmlWriter();$xml->openMemory();$xml->startDocument('1.0', 'UTF-8');$xml->startElement('games');$db = new SQLite3('db/playing.db');// remove old data$db->exec("DELETE FROM players WHERE timestamp < ".(time()-600));function write(XMLWriter $xml, $data){    foreach($data as $key => $value){        if(is_array($value)){            if(substr($key,0,5) == 'game_'){ $key = 'game'; }            if(substr($key,0,3) == 'exe' && $key != 'exes'){ $key = 'exe'; }            $xml->startElement($key);            write($xml, $value);            $xml->endElement();            continue;        }        $xml->writeElement($key, $value);    }}$gameId = 0;foreach(glob(GAMES."*.torrent") as $torrent){  $name = trim(basename($torrent,'.torrent'));  $txt = str_replace('.torrent','.txt',$torrent);  if(!file_exists($txt)){    continue;  }  $exes = file($txt);  $xmlexes = array();  foreach($exes as $exe){    list($exec,$executable,$icon) = explode('#',$exe);    $xmlexes['exe'.$i++] = array("file" => trim($exec), "icon" => trim($icon), "name" => trim($executable));  }  $decoder = new torrent_decoder($torrent);  $info = $decoder->decode();  $size = 0;    if($info['info']['files']){    foreach($info['info']['files'] as $file){        $size += (int)$file['length'];    }  } else {      $size = (int)$info['info']['length'];  }    $result = $db->query("SELECT nickname  FROM players WHERE game = '".$name."'");  $players = array();  while($row = $result->fetchArray()){    $players[] = $row['nickname'];  }  $output['game_'.($gameId++)] = array("title" => $name, "size" => $size, "message" => $data['message'].' ', "exes" => $xmlexes, "players" => implode(', ',$players));}header("Content-Type: text/xml");write($xml, $output);$xml->endElement();echo $xml->outputMemory(true);
+<?php
+include("config.php");
+
+error_reporting(E_ALL ^ E_NOTICE);
+
+$xml = new XmlWriter();
+$xml->openMemory();
+$xml->startDocument('1.0', 'UTF-8');
+$xml->startElement('games');
+
+
+$db = new SQLite3('db/playing.db');
+// remove old data
+$db->exec("DELETE FROM players WHERE timestamp < ".(time()-600));
+
+function write(XMLWriter $xml, $data){
+    foreach($data as $key => $value){
+        if(is_array($value)){
+            if(substr($key,0,5) == 'game_'){ $key = 'game'; }
+            if(substr($key,0,3) == 'exe' && $key != 'exes'){ $key = 'exe'; }
+            $xml->startElement($key);
+            write($xml, $value);
+            $xml->endElement();
+            continue;
+        }
+        $xml->writeElement($key, $value);
+    }
+}
+
+$gameId = 0;
+foreach(glob(GAMES."*.torrent") as $torrent){
+  $gamename = trim(basename($torrent,'.torrent')); 
+  $xmlFile = str_replace('.torrent','.xml',$torrent);
+  if(!file_exists($xmlFile)){
+    continue;
+  }
+
+  $data = simplexml_load_file($xmlFile);
+
+  $xmlexes = array();
+  $i = 0;
+
+
+  foreach($data->exes[0] as $exe){
+    $file = (string)$exe->file;  
+    $icon = (string)$exe->icon;
+    $name = (string)$exe->name;
+   
+    if(strlen(str_replace(array(' ','.'),'',$file)) == 0){ continue; }
+
+    $xmlexes['exe'.$i++] = array("file" => trim($file), "icon" => trim($icon), "name" => trim($name));
+  }
+
+  if(count($xmlexes) == 0){ continue; }
+
+
+  // fetch current players
+  $result = $db->query("SELECT nickname  FROM players WHERE game = '".$gamename."'");
+  $players = array();
+  while($row = $result->fetchArray()){
+    $players[] = $row['nickname'];
+  }
+   
+
+  if(count($players)>0){
+    $playerList = implode(', ',$players);
+  } else {
+    $playerList = '';
+  }
+  
+
+  $output['game_'.($gameId++)]= array("title" => $gamename, "size" => (string)$data->size, "message" => (string)$data->message, "exes" => $xmlexes, "players" => $playerList);
+}
+
+
+header("Content-Type: text/xml");
+write($xml, $output);
+$xml->endElement();
+echo $xml->outputMemory(true);
