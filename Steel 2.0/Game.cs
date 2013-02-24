@@ -28,9 +28,9 @@ namespace Steel_2._0
 		}
 
 		private string _title;
-		private string _size;
+		public string _size;
 
-		private List<Exe> _executables;
+		public List<Exe> _executables;
 		private int _torrentID = -1;
 		public bool _isDownloading;
         public bool _isPaused;
@@ -342,15 +342,23 @@ namespace Steel_2._0
 
 		static double parseProgressString(string progress)
 		{
-			// you never know
-			if (progress == null)
+			// check for empty string
+			if (progress == null || progress.Length == 0)
 			{
 				return 0;
 			}
 
 			// "... 49.5% ...." => "49.5"
 			int endProgress = progress.LastIndexOf('%');
+            if (endProgress == -1) {
+                return 0;
+            }
+
 			int beginProgress = progress.Substring(0, endProgress).LastIndexOf(' ');
+            if (beginProgress == -1) {
+                return 0;
+            }
+
 			string stringProgress = progress.Substring(beginProgress + 1, endProgress - beginProgress - 1);
 
 			// "49.5" => 49.5
@@ -418,7 +426,7 @@ namespace Steel_2._0
 		{
 			this.startTorrent();
 			while (!this.downloadCompleted) {
-				Thread.Sleep(100);
+				Thread.Sleep(1000);
 			}
 			_isDownloading = false;
 			this.install();
@@ -455,7 +463,7 @@ namespace Steel_2._0
 				if(TorrentEngine.downloadDone(_torrentID)){
 					break;
 				}
-				Thread.Sleep(100);
+				Thread.Sleep(1000);
 			}
 		}
 
@@ -475,7 +483,7 @@ namespace Steel_2._0
 			if (_torrentID >= 0) {
 				return TorrentEngine.getProgress(_torrentID);
 			} else {
-				return -1;
+				return -2;
 			}
 		}
 

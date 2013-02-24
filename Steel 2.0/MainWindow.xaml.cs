@@ -25,33 +25,39 @@ namespace Steel_2._0
 		{
 			InitializeComponent();
 		}
+        GameList gameList;
 
 
 		private void Window_Loaded(object sender, RoutedEventArgs e)
 		{
+            // start torrent engine
             TorrentEngine.init();
 
+            // check if first-run
 			if (!Settings.Default.SettingsShown) {
 				SettingsWindow settings = new SettingsWindow();
 				settings.ShowDialog();
 				Settings.Default.SettingsShown = true;
 			}
 
-
+            // create directories (if not exists)
 			Directory.CreateDirectory(Settings.Default.Directory);
 			Directory.CreateDirectory(Settings.Default.downloadPath);
 			Directory.CreateDirectory(Settings.Default.installPath);
 			Directory.CreateDirectory(Settings.Default.torrentPath);
 			Directory.CreateDirectory(Path.Combine(Settings.Default.Directory,"icons"));
 
-			GameList lst = new GameList(Settings.Default.steelServerURL + "xml.php", true);
-			dgrGames.ItemsSource = lst.list;
+            // load the gamelist
+            gameList = new GameList(Settings.Default.steelServerURL + "xml.php", true, true);
+            dgrGames.ItemsSource = gameList.list;
 
+            // thread to update the total speed
 			Thread updateNetwork = new Thread(updateNetwork_t);
 			updateNetwork.IsBackground = true;
 			updateNetwork.Start();
 
-            if (lst.offlineModus) {
+            // set offline modus in the title if in offline modus
+            if (gameList.offlineModus) {
                 this.Title += " (Offline Modus)";
             }
 
@@ -172,12 +178,24 @@ namespace Steel_2._0
 
         private void btnRefresh_Click(object sender, RoutedEventArgs e)
         {
-            GameList lst = new GameList(Settings.Default.steelServerURL + "xml.php", true);
-            dgrGames.ItemsSource = lst.list;
+            // fetch a new xml file
+            gameList.fetchGameList(Settings.Default.steelServerURL + "xml.php");
+            List<Game> tmpGameList = gameList.generateGameList();
 
-            if (!lst.offlineModus) {
-               this.Title = this.Title.Replace(" (Offline Modus)", "");
+            // update the game information
+            foreach (Game g in tmpGameList) {
+                foreach (Game g2 in gameList.list) {
+                    if (g.title == g2.title) {
+                        g2.title = g.title;
+                        g2._size = g._size;
+                        g2.players = g.players;
+                        g2._executables = g._executables;
+                    }
+                }   
             }
+
+            // reload the game information in the view
+            dgrGames.Items.Refresh();
         }
 
 		

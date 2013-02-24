@@ -57,8 +57,12 @@
     <ApplicationManifest>Steel 2.0.exe.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MonoTorrent">
+    <Reference Include="MonoTorrent, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>Resources\MonoTorrent.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoTorrent.Dht">
+      <HintPath>Resources\MonoTorrent.Dht.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
