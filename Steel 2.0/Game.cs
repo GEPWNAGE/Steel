@@ -296,8 +296,16 @@ namespace Steel_2._0
 			proc0.StartInfo.WorkingDirectory = gamePath();
 			
 			string statusFile = proc0.StartInfo.WorkingDirectory+"status_"+title+".txt";
-			string command = "arc x -y \"" + downloadPath() + "\" > \""+statusFile+"\"";
-			proc0.StartInfo.Arguments = "/C " + command;
+
+            string steelExePath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+            string arcPath = Path.Combine(steelExePath, "Arc.exe");
+            arcPath = "\"" + arcPath + "\"";
+
+			string command = arcPath+" x -y \"" + downloadPath() + "\" > \""+statusFile+"\"";
+
+            Debug.WriteLine(command);
+
+			proc0.StartInfo.Arguments = "/C " + "\""+command+"\"";
 			proc0.StartInfo.CreateNoWindow = true;
 			proc0.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
 			proc0.Start();
