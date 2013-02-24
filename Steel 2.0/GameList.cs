@@ -104,7 +104,6 @@ namespace Steel_2._0
 			Thread _statusUpdate = new Thread(UpdateStatus_t);
 			_statusUpdate.IsBackground = true;
 			_statusUpdate.Start();
-
 		}
 
 		private void UpdateStatus_t()
