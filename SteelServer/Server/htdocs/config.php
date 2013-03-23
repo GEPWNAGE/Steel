@@ -1,4 +1,4 @@
 <?php
-define('GAMES',"..\\..\\Games\\");
-define('ICONS',"..\\..\\Icons\\");
+define('GAMES',"C:\\SteelGames\\Games\\");
+define('ICONS',"C:\\SteelGames\\Icons\\");
 ?>

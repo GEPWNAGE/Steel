@@ -323,14 +323,14 @@ namespace Steel_2._0
             // delete the status file
             File.Delete(statusFile);
 			
-			string setupFile = Settings.Default.installPath + title + @"\" + "setup.bat";
+			string setupFile = Path.Combine(gamePath(),"setup.bat");
 			if(File.Exists(setupFile))
 			{
 				ProcessStartInfo processInfo = new ProcessStartInfo();
 				processInfo.Verb = "runas"; // administrator rights
 				processInfo.FileName = setupFile;
 				processInfo.WindowStyle = ProcessWindowStyle.Minimized;
-				processInfo.WorkingDirectory = Settings.Default.installPath + title;
+                processInfo.WorkingDirectory = gamePath();
 				Process.Start(processInfo);
 			}
 			_isInstalling = false;

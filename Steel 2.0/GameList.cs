@@ -18,8 +18,7 @@ namespace Steel_2._0
 
         public bool offlineModus = false;
 
-
-
+        
         public void fetchGameList(string xmlURL)
         {
             try {

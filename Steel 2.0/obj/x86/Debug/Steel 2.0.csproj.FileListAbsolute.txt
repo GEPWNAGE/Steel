@@ -1,10 +1,5 @@
-C:\Users\Peter\Dropbox\Steel\Steel 2.0\bin\Debug\Steel 2.0.exe.config
 C:\Users\Peter\Dropbox\Steel\Steel 2.0\obj\x86\Debug\Interop.IWshRuntimeLibrary.dll
 C:\Users\Peter\Dropbox\Steel\Steel 2.0\obj\x86\Debug\Steel 2.0.csproj.ResolveComReference.cache
-C:\Users\Peter\Dropbox\Steel\Steel 2.0\obj\x86\Debug\Steel 2.0.exe
-C:\Users\Peter\Dropbox\Steel\Steel 2.0\obj\x86\Debug\Steel 2.0.pdb
-C:\Users\Peter\Dropbox\Steel\Steel 2.0\bin\Debug\Steel 2.0.exe
-C:\Users\Peter\Dropbox\Steel\Steel 2.0\bin\Debug\Steel 2.0.pdb
 C:\Users\Peter\Dropbox\Steel\Steel 2.0\bin\Debug\MonoTorrent.Dht.dll
 C:\Users\Peter\Dropbox\Steel\Steel 2.0\bin\Debug\MonoTorrent.dll
 C:\Users\Peter\Dropbox\Steel\Steel 2.0\bin\Debug\Interop.IWshRuntimeLibrary.dll
@@ -14,8 +9,13 @@ C:\Users\Peter\Dropbox\Steel\Steel 2.0\obj\x86\Debug\SettingsWindow.baml
 C:\Users\Peter\Dropbox\Steel\Steel 2.0\obj\x86\Debug\MainWindow.g.cs
 C:\Users\Peter\Dropbox\Steel\Steel 2.0\obj\x86\Debug\SettingsWindow.g.cs
 C:\Users\Peter\Dropbox\Steel\Steel 2.0\obj\x86\Debug\App.g.cs
-C:\Users\Peter\Dropbox\Steel\Steel 2.0\obj\x86\Debug\Steel 2.0_MarkupCompile.cache
-C:\Users\Peter\Dropbox\Steel\Steel 2.0\obj\x86\Debug\Steel 2.0.g.resources
 C:\Users\Peter\Dropbox\Steel\Steel 2.0\obj\x86\Debug\Steel_2._0.Properties.Resources.resources
 C:\Users\Peter\Dropbox\Steel\Steel 2.0\obj\x86\Debug\GenerateResource.read.1.tlog
 C:\Users\Peter\Dropbox\Steel\Steel 2.0\obj\x86\Debug\GenerateResource.write.1.tlog
+C:\Users\Peter\Dropbox\Steel\Steel 2.0\bin\Debug\Steel 2.1.exe.config
+C:\Users\Peter\Dropbox\Steel\Steel 2.0\bin\Debug\Steel 2.1.exe
+C:\Users\Peter\Dropbox\Steel\Steel 2.0\bin\Debug\Steel 2.1.pdb
+C:\Users\Peter\Dropbox\Steel\Steel 2.0\obj\x86\Debug\Steel 2.1_MarkupCompile.cache
+C:\Users\Peter\Dropbox\Steel\Steel 2.0\obj\x86\Debug\Steel 2.1.g.resources
+C:\Users\Peter\Dropbox\Steel\Steel 2.0\obj\x86\Debug\Steel 2.1.exe
+C:\Users\Peter\Dropbox\Steel\Steel 2.0\obj\x86\Debug\Steel 2.1.pdb

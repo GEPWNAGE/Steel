@@ -10,6 +10,9 @@
 
 				<TextBox Height="23" HorizontalAlignment="Left" Margin="132,48,0,0" Name="txtSteelServer" VerticalAlignment="Top" Width="263" TabIndex="3" />
 				<Label Content="Steel server" Height="28" HorizontalAlignment="Left" Margin="12,46,0,0" Name="lblSteelServer" VerticalAlignment="Top" />
+
+        <TextBox TabIndex="4" Height="23" HorizontalAlignment="Left" Margin="132,80,0,0" Name="txtNickname" VerticalAlignment="Top" Width="263" TextChanged="textBox1_TextChanged" />
+
         <TextBox Height="23" HorizontalAlignment="Left" Margin="132,116,0,0" Name="txtPort" VerticalAlignment="Top" Width="72" TabIndex="5" />
 				<Label Content="Torrent port" Height="28" HorizontalAlignment="Left" Margin="12,114,0,0" Name="lblPort" VerticalAlignment="Top" />
 		<Button Content="Save" Height="23" HorizontalAlignment="Left" Margin="12,196,0,0" Name="btnSave" VerticalAlignment="Top" Width="75" Click="btnSave_Click" IsDefault="True" TabIndex="6" />
@@ -17,7 +20,7 @@
         <CheckBox Height="16" HorizontalAlignment="Left" Margin="132,156,0,0" Name="CheckShortcut" VerticalAlignment="Top" Checked="checkBox1_Checked" IsChecked="True" />
         <Label Content="Create shortcuts" Name="lblCheckShortcut" Height="28" HorizontalAlignment="Left" Margin="13,148,0,0" VerticalAlignment="Top" />
         <Label Content="Nickname" Height="28" HorizontalAlignment="Left" Margin="13,80,0,0" Name="label1" VerticalAlignment="Top" />
-        <TextBox Height="23" HorizontalAlignment="Left" Margin="132,80,0,0" Name="txtNickname" VerticalAlignment="Top" Width="263" TextChanged="textBox1_TextChanged" />
+        
     </Grid>
 
 	
