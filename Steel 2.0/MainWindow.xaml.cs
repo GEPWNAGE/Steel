@@ -47,34 +47,55 @@ namespace Steel_2._0
 			Directory.CreateDirectory(Settings.Default.torrentPath);
 			Directory.CreateDirectory(Path.Combine(Settings.Default.Directory,"icons"));
 
-            // load the gamelist
-            gameList = new GameList(Settings.Default.steelServerURL + "xml.php", true, true);
-            dgrGames.ItemsSource = gameList.list;
 
+            // start asynchrone thread to load initial gamelist
+            Thread loadGamelistThread = new Thread(new ThreadStart(loadGamelist_t));
+            loadGamelistThread.Start();
+            
             // thread to update the total speed
 			Thread updateNetwork = new Thread(updateNetwork_t);
 			updateNetwork.IsBackground = true;
 			updateNetwork.Start();
-
-            // set offline modus in the title if in offline modus
-            if (gameList.offlineModus) {
-                this.Title += " (Offline Modus)";
-            }
 
             // start thread that updates the gamelist every 5 minutes
             Thread statusThread = new Thread(new ThreadStart(updateGamelist_t));
             statusThread.Start();
 		}
 
+        private void loadGamelist_t()
+        {
+            // load the gamelist
+             this.Dispatcher.Invoke((Action)(() => {
+                gameList = new GameList(Settings.Default.steelServerURL + "xml.php", true, true);
+                dgrGames.ItemsSource = gameList.list;
+
+                // remove "splash" labelC:
+                LoadingLabel.Visibility = System.Windows.Visibility.Hidden;
+
+                // set offline modus in the title if in offline modus
+                if (gameList.offlineModus) {
+                    this.Title += " (Offline Modus)";
+                }
+            }));
+        }
+        
         private void updateGamelist_t()
         {
             while (true) {
+                Thread.Sleep(1000 * 5 * 60);
                 this.Dispatcher.Invoke((Action)(() => {
                     btnRefresh_Click(null, null);
                 }));
-                Thread.Sleep(1000 * 5 * 60);
             }
 
+        }
+
+        private void btnInfo_Click(object sender, RoutedEventArgs e)
+        {
+            Game g = ((FrameworkElement)sender).DataContext as Game;
+
+            GameInfo gameInfo = new GameInfo(g.title,g.message);
+            gameInfo.ShowDialog();
         }
 
 		private void btnInstall_Click(object sender, RoutedEventArgs e)
@@ -190,6 +211,7 @@ namespace Steel_2._0
                         g2._size = g._size;
                         g2.players = g.players;
                         g2._executables = g._executables;
+                        g2.message = g.message;
                     }
                 }   
             }

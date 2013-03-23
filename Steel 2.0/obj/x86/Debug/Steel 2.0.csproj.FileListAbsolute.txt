@@ -19,3 +19,5 @@ C:\Users\Peter\Dropbox\Steel\Steel 2.0\obj\x86\Debug\Steel 2.1_MarkupCompile.cac
 C:\Users\Peter\Dropbox\Steel\Steel 2.0\obj\x86\Debug\Steel 2.1.g.resources
 C:\Users\Peter\Dropbox\Steel\Steel 2.0\obj\x86\Debug\Steel 2.1.exe
 C:\Users\Peter\Dropbox\Steel\Steel 2.0\obj\x86\Debug\Steel 2.1.pdb
+C:\Users\Peter\Dropbox\Steel\Steel 2.0\obj\x86\Debug\GameInfo.baml
+C:\Users\Peter\Dropbox\Steel\Steel 2.0\obj\x86\Debug\GameInfo.g.cs

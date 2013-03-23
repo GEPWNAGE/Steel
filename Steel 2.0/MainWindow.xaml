@@ -16,8 +16,8 @@
 		</Grid.RowDefinitions>
 
 		
-		<DataGrid Name="dgrGames" HeadersVisibility="None" Grid.Row="0" AutoGenerateColumns="False" 
-				CanUserReorderColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False" CanUserSortColumns="False" CanUserAddRows="False" Margin="0,0,0,6" RowBackground="#63000000" Foreground="#FFC7C7C7" ForceCursor="True" AlternatingRowBackground="#2C000000">
+		<DataGrid Name="dgrGames" HeadersVisibility="Column" Grid.Row="0" AutoGenerateColumns="False" 
+				CanUserReorderColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False" CanUserSortColumns="True" CanUserAddRows="False" Margin="0,0,0,6" RowBackground="#63000000" Foreground="#FFC7C7C7" ForceCursor="True" AlternatingRowBackground="#2C000000">
 			<DataGrid.Background>
 				<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
 					<GradientStop Color="Black" Offset="1" />
@@ -26,8 +26,15 @@
                 </LinearGradientBrush>
 			</DataGrid.Background>
 
-			<DataGrid.Columns>
-				<DataGridTemplateColumn Header="Icon" IsReadOnly="True">
+            <DataGrid.ColumnHeaderStyle>
+                <Style TargetType="DataGridColumnHeader" >
+                    <Setter Property="FontSize" Value="11" />
+                    <Setter Property="Background" Value="Black" />
+                </Style>
+            </DataGrid.ColumnHeaderStyle>
+
+                <DataGrid.Columns>
+				<DataGridTemplateColumn Header="" IsReadOnly="True" MinWidth="30">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<Image Source="{Binding listIcon}" Height="24" Width="24"/>
@@ -42,17 +49,17 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="Players" Binding="{Binding playerCount}" IsReadOnly="True">
+                <DataGridTextColumn Header="Players" Binding="{Binding playerCount}" IsReadOnly="True" MinWidth="50">
                     <DataGridTextColumn.CellStyle>
                         <Style TargetType="DataGridCell">
                             <Setter Property="ToolTip" Value="{Binding playerList}" />
                         </Style>
                     </DataGridTextColumn.CellStyle>
                 </DataGridTextColumn>   
-                    <DataGridTextColumn Header="Size" Binding="{Binding size}" IsReadOnly="True" MinWidth="50" />
+                    <DataGridTextColumn Header="Size" Binding="{Binding size}" IsReadOnly="True" MinWidth="50" CanUserSort="True" SortMemberPath="bytes" />
 				<DataGridTextColumn Header="Status" Binding="{Binding status}" IsReadOnly="True" MinWidth="290" />
 				
-				<DataGridTemplateColumn Header="Play" IsReadOnly="True" MinWidth="50">
+				<DataGridTemplateColumn Header="" IsReadOnly="True" MinWidth="50">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
                             <Button Name="btnPlay" Content="{Binding buttonText}" Click="btnPlay_Click"
@@ -63,13 +70,7 @@
 				</DataGridTemplateColumn>
 
 
-                <DataGridTemplateColumn Header="Uninstall" IsReadOnly="True" MinWidth="50">
-                    <DataGridTemplateColumn.HeaderStyle>
-                        <Style TargetType="DataGridColumnHeader">
-                            <Setter Property="HorizontalContentAlignment" Value="Right"/>
-                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                        </Style>
-                    </DataGridTemplateColumn.HeaderStyle>
+                <DataGridTemplateColumn Header="" IsReadOnly="True" MinWidth="50">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Button Name="btnUninstall" Content="{Binding uninstallButtonText}" Click="btnUninstall_Click" 
@@ -78,6 +79,16 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="" IsReadOnly="True" MinWidth="50">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Name="btnInfo" Content="Info" Click="btnInfo_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" 
+                                    Foreground="#ECC4C4C4" Visibility="{Binding infoButtonVisibility}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
             </DataGrid.Columns>
 
 		</DataGrid>
@@ -85,6 +96,7 @@
         <Button Content="Settings" Grid.Row="1" Height="23" HorizontalAlignment="Right" Margin="0,0,12,10" Name="btnSettings" VerticalAlignment="Bottom"  Width="75" Click="btnSettings_Click" />
 		<Label Content="Down: 0 Up: 0" Grid.Row="1" Height="28" HorizontalAlignment="Left" Margin="0,5,0,0" Name="lblNetwork" VerticalAlignment="Top" Foreground="Gray" />
         <Button Content="Refresh" Grid.Row="1" Height="23" HorizontalAlignment="Left" Margin="610,0,0,0" Name="button1" VerticalAlignment="Top" Width="75" Click="btnRefresh_Click"/>
+        <Label Content="Loading gamelist..." Height="80" HorizontalAlignment="Left" Margin="250,195,0,0" Name="LoadingLabel" VerticalAlignment="Top" Width="435" FontSize="40" />
     </Grid>
 	
 </Window>

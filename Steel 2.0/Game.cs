@@ -41,6 +41,7 @@ namespace Steel_2._0
 		public bool installed = false;
 		public bool running = false;
         public string players = "";
+        public string message;
 
 
 		private WebClient _downloader = new WebClient();
@@ -129,6 +130,14 @@ namespace Steel_2._0
 			set { _size = value; }
 		}
 
+        public long bytes
+        {
+            get
+            {
+                return Int64.Parse(_size);
+            }
+        }
+
 		public void updateStatus()
 		{
 			OnPropertyChanged("status");
@@ -136,6 +145,7 @@ namespace Steel_2._0
 			OnPropertyChanged("buttonEnabled");
 			OnPropertyChanged("uninstallButtonVisibility");
             OnPropertyChanged("uninstallButtonText");
+            OnPropertyChanged("infoButtonVisibility");
             OnPropertyChanged("textColor");
 		}
 
@@ -202,6 +212,19 @@ namespace Steel_2._0
 				}
 			}
 		}
+
+        public string infoButtonVisibility
+        {
+            get
+            {
+                if (message.Length > 0) {
+                    return "visible";
+                }
+                else {
+                    return "hidden";
+                }
+            }
+        }
 
         public string uninstallButtonText {
             get
@@ -559,7 +582,7 @@ namespace Steel_2._0
             // send playing status every 5 minutes
 			while (this.running) {
 				counter++;
-				if (counter == 60*5) {
+				if (counter == 5*60) {
 					sendPlayingStatus();
 					counter = 0;
 				}

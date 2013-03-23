@@ -58,6 +58,10 @@ namespace Steel_2._0
                         g.players = game_element.InnerText;
                     }
 
+                    if (game_element.Name == "message") {
+                        g.message = game_element.InnerText.Trim();
+                    }
+
                     if (game_element.Name == "exes") {
                         foreach (XmlNode exe in game_element.ChildNodes) {
                             Exe newExe = new Exe();
