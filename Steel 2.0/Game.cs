@@ -108,7 +108,7 @@ namespace Steel_2._0
 			}
 		}
 
-		bool buttonEnabled
+		public bool buttonEnabled
 		{
 			get
 			{
@@ -135,6 +135,7 @@ namespace Steel_2._0
 			OnPropertyChanged("buttonText");
 			OnPropertyChanged("buttonEnabled");
 			OnPropertyChanged("uninstallButtonVisibility");
+            OnPropertyChanged("uninstallButtonText");
             OnPropertyChanged("textColor");
 		}
 
@@ -536,8 +537,7 @@ namespace Steel_2._0
 
 			string executable = Path.Combine(Path.Combine(Settings.Default.installPath, _title), _executables[index].file);
 
-
-			if (!File.Exists(executable))
+            if (!File.Exists(executable))
 			{
 				return;
 			}
@@ -545,7 +545,7 @@ namespace Steel_2._0
 			Process gameProcess = new Process();
 			gameProcess.StartInfo.FileName = executable;
 			gameProcess.StartInfo.UseShellExecute = false;
-			gameProcess.StartInfo.WorkingDirectory = Path.Combine(Settings.Default.installPath, _title);
+            gameProcess.StartInfo.WorkingDirectory = Path.GetDirectoryName(executable); 
 			gameProcess.Start();
 
 			gameProcess.EnableRaisingEvents = true;
@@ -555,6 +555,8 @@ namespace Steel_2._0
 			int counter = 0;
 
 			sendPlayingStatus();
+
+            // send playing status every 5 minutes
 			while (this.running) {
 				counter++;
 				if (counter == 60*5) {

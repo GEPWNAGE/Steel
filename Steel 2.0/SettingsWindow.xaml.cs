@@ -70,6 +70,10 @@ namespace Steel_2._0
             {
                 Directory.CreateDirectory(Settings.Default.Directory);
             }
+
+            // save the settings
+            Settings.Default.Save();
+
 			this.Close();
 			
 		}

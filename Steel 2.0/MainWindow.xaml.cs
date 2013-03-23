@@ -201,8 +201,15 @@ namespace Steel_2._0
 		
 		private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
+            // save settings and stuff
+            Console.WriteLine("Closing Steel...");
 			Settings.Default.Save();
-			TorrentEngine.saveStatus();
+            Console.WriteLine("Settings saved");
+            TorrentEngine.close();
+            Console.WriteLine("Torrents engine stopped");
+
+            // stop the application
+            System.Environment.Exit(0);
 		}
 
 		private void btnDownload_Click(object sender , RoutedEventArgs e)

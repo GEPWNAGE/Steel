@@ -87,7 +87,15 @@ namespace Steel_2._0
 
 			// Write all the fast resume data to disk
 			File.WriteAllBytes(Path.Combine(Settings.Default.Directory,"torrent.data"), list.Encode());
+
 		}
+
+        public static void close()
+        {
+            saveStatus();
+            _engine.Dispose();
+            
+        }
 
 		public static int addTorrent(string pvURL)
 		{
@@ -116,16 +124,23 @@ namespace Steel_2._0
 			// check if there is resume-data available
 			if (File.Exists(Path.Combine(Settings.Default.Directory,"torrent.data")))
 			{
-                BEncodedList list = (BEncodedList)BEncodedValue.Decode(File.ReadAllBytes(Path.Combine(Settings.Default.Directory, "torrent.data")));
-				foreach (BEncodedDictionary fastResume in list)
-				{
-					FastResume data = new FastResume(fastResume);
-					if (manager.InfoHash == data.Infohash)
-					{
-                        // load resume-data
-						manager.LoadFastResume(data);
-					}
-				}
+                BEncodedList list = null;
+
+                try {
+                    list = (BEncodedList)BEncodedValue.Decode(File.ReadAllBytes(Path.Combine(Settings.Default.Directory, "torrent.data")));
+                } catch(Exception e){
+                    Console.WriteLine("Unable to load torrent.data, ignoring...");
+                }
+
+                if (list != null) {
+                    foreach (BEncodedDictionary fastResume in list) {
+                        FastResume data = new FastResume(fastResume);
+                        if (manager.InfoHash == data.Infohash) {
+                            // load resume-data
+                            manager.LoadFastResume(data);
+                        }
+                    }
+                }
 			}
 
 			try
