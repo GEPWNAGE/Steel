@@ -13,6 +13,8 @@ using System.Windows.Navigation;
 using System.Threading;
 using System.IO;
 using Steel_2._0.Properties;
+using System.Reflection;
+using System.Diagnostics;
 
 namespace Steel_2._0
 {
@@ -27,6 +29,19 @@ namespace Steel_2._0
 		}
         GameList gameList;
 
+        private void runSetup()
+        {
+            string setupFile = Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location),"setup.bat");
+            if (File.Exists(setupFile)) {
+                ProcessStartInfo processInfo = new ProcessStartInfo();
+                processInfo.Verb = "runas"; // administrator rights
+                processInfo.FileName = setupFile;
+                processInfo.WindowStyle = ProcessWindowStyle.Minimized;
+                processInfo.WorkingDirectory = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+                Process p = Process.Start(processInfo);
+            }
+        }
+
 
 		private void Window_Loaded(object sender, RoutedEventArgs e)
 		{
@@ -35,6 +50,10 @@ namespace Steel_2._0
 
             // check if first-run
 			if (!Settings.Default.SettingsShown) {
+
+                // run setup for requirements
+                runSetup();
+
 				SettingsWindow settings = new SettingsWindow();
 				settings.ShowDialog();
 				Settings.Default.SettingsShown = true;
@@ -66,6 +85,8 @@ namespace Steel_2._0
         {
             // load the gamelist
              this.Dispatcher.Invoke((Action)(() => {
+                 LoadingLabel.Visibility = System.Windows.Visibility.Visible;
+
                 gameList = new GameList(Settings.Default.steelServerURL + "xml.php", true, true);
                 dgrGames.ItemsSource = gameList.list;
 
@@ -195,6 +216,12 @@ namespace Steel_2._0
 		{
 			SettingsWindow settings = new SettingsWindow();
 			settings.ShowDialog();
+
+
+            // start asynchrone thread to load initial gamelist
+
+            Thread loadGamelistThread = new Thread(new ThreadStart(loadGamelist_t));
+            loadGamelistThread.Start();
 		}
 
         private void btnRefresh_Click(object sender, RoutedEventArgs e)

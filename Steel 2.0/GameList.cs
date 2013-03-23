@@ -40,6 +40,10 @@ namespace Steel_2._0
         {
             List<Game> generatedList = new List<Game>();
 
+            if(!File.Exists(Settings.Default.xmlPath)){
+                return generatedList;
+            }
+
             // parse the XML file
             XmlDocument parser = new XmlDocument();
             parser.Load(Settings.Default.xmlPath);

@@ -599,7 +599,10 @@ namespace Steel_2._0
 		}
 
 		public void uninstall()
-		{
+        {
+            TorrentEngine.removeTorrent(_torrentID);
+            Thread.Sleep(1000);
+
 			if (Directory.Exists(gamePath()))
 			{
 				try
@@ -613,11 +616,14 @@ namespace Steel_2._0
 
 			}
 
-			TorrentEngine.removeTorrent(_torrentID);
-
 			if (File.Exists(downloadPath()))
 			{
-				File.Delete(downloadPath());
+                try {
+                    File.Delete(downloadPath());
+                }
+                catch {
+                    // :(
+                }
 			}
 
 			if (File.Exists(torrentPath()))

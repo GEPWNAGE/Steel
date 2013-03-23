@@ -99,9 +99,17 @@ namespace Steel_2._0
 
 		public static int addTorrent(string pvURL)
 		{
+            Torrent torrent;
+            TorrentManager manager;
+
             // Load Torrent File
-            Torrent torrent = Torrent.Load(pvURL);
-            TorrentManager manager = new TorrentManager(torrent, Settings.Default.downloadPath, _torrentDefaults);
+            try {
+                torrent = Torrent.Load(pvURL);
+                manager = new TorrentManager(torrent, Settings.Default.downloadPath, _torrentDefaults);
+            }
+            catch (Exception e) {
+                return -1;
+            }
 
             // make sure this torrent is new
             var managersList = managers.ToList();

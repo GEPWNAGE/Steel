@@ -1,0 +1,9 @@
+﻿<Window x:Class="Steel_2._0.GameInfo"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="GameInfo" Height="300" Width="300" Background="gray">
+    <Grid>
+        <TextBlock Height="213" HorizontalAlignment="Left" Margin="12,36,0,0" Name="infoBlock" VerticalAlignment="Top" Width="254" TextWrapping="Wrap" />
+        <Label Content="" Height="28" HorizontalAlignment="Left" Margin="12,0,0,0" Name="gameNameLabel" VerticalAlignment="Top" Width="254" FontWeight="Bold" />
+    </Grid>
+</Window>

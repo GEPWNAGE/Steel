@@ -1,0 +1,9 @@
+# Steel sluit nu volledig af als je kruisje rechtsboven aanklikt
+# Instellingen worden gelijk opgeslagen als je ze hebt ingevuld (ipv bij het afsluiten)
+# Bij correpte torrent.data crasht Steel niet meer, maar gaat hij torrent.data opnieuw genereren.
+# Cancel/uninstall knopje nu correcte tekst 
+# Spelletjes waarbij de .exe niet in de hoofdmap zit werken nu ook (bijv. SWAT 4)
+
+# Mogelijkheid tot sorteren van kolommen (dus ook op grootte)
+# Splashscreen bij het laden van de gamelist (ipv blockend wachten)
+# Scrollen in de gamelist is nu sneller

@@ -15,8 +15,20 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_2477BD67B60643A70CD0012FFFD3F2CB"
-        "OwnerKey" = "8:_E4A11FEE35734F32953C2133756C1262"
+        "MsmKey" = "8:_152F097B06BE425B9AE68C032E994041"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_30DD3175F4CF4287B58A3C679E84DF66"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_40945C4085FBC327D5B5183CE3C0BE68"
+        "OwnerKey" = "8:_6A30E28D450F401DB050B5532D6ACF67"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -27,26 +39,74 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_66AF540AB6754C9796F03AA8DFCE85C6"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_6A30E28D450F401DB050B5532D6ACF67"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_9EC1927AA85D36E4AA8F87775A6D6DFE"
+        "OwnerKey" = "8:_40945C4085FBC327D5B5183CE3C0BE68"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_C38A370F65B542008F6FE8DE2ED0CCAB"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_E4A11FEE35734F32953C2133756C1262"
+        "MsmKey" = "8:_C8C17BDBD0704F762EAB8DF8D5EE293B"
+        "OwnerKey" = "8:_6A30E28D450F401DB050B5532D6ACF67"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_D312EBB6041F47F6942313D7F3542FF1"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_2477BD67B60643A70CD0012FFFD3F2CB"
+        "MsmKey" = "8:_E24983B8F82FDC6418600F50CC04D187"
+        "OwnerKey" = "8:_C8C17BDBD0704F762EAB8DF8D5EE293B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_E24983B8F82FDC6418600F50CC04D187"
+        "OwnerKey" = "8:_6A30E28D450F401DB050B5532D6ACF67"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_E4A11FEE35734F32953C2133756C1262"
+        "OwnerKey" = "8:_40945C4085FBC327D5B5183CE3C0BE68"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_6A30E28D450F401DB050B5532D6ACF67"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_C8C17BDBD0704F762EAB8DF8D5EE293B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_E24983B8F82FDC6418600F50CC04D187"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -61,12 +121,33 @@
         "PackageFilesAs" = "3:2"
         "PackageFileSize" = "3:-2147483648"
         "CabType" = "3:1"
-        "Compression" = "3:2"
+        "Compression" = "3:3"
         "SignOutput" = "11:FALSE"
         "CertificateFile" = "8:"
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.0,Profile=Client"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4 Client Profile (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.0,Profile=Client"
+                    }
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.Windows.Installer.3.1"
+                    {
+                    "Name" = "8:Windows Installer 3.1"
+                    "ProductCode" = "8:Microsoft.Windows.Installer.3.1"
+                    }
+                }
+            }
         }
         "Release"
         {
@@ -83,12 +164,48 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
     }
     "Deployable"
     {
         "CustomAction"
         {
+            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_1BD145396BBE4CC8A2F186BEB01AA394"
+            {
+            "Name" = "8:Primary output from Steel 2.0 (Active)"
+            "Condition" = "8:"
+            "Object" = "8:_6A30E28D450F401DB050B5532D6ACF67"
+            "FileType" = "3:2"
+            "InstallAction" = "3:2"
+            "Arguments" = "8:"
+            "EntryPoint" = "8:"
+            "Sequence" = "3:1"
+            "Identifier" = "8:_6B03AFBF_83F3_45E9_A9D2_A7485FB0C8E9"
+            "InstallerClass" = "11:TRUE"
+            "CustomActionData" = "8:"
+            }
+            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_CBE514C8CAE24E7F8763CEE179131F1F"
+            {
+            "Name" = "8:Primary output from Steel 2.0 (Active)"
+            "Condition" = "8:"
+            "Object" = "8:_6A30E28D450F401DB050B5532D6ACF67"
+            "FileType" = "3:2"
+            "InstallAction" = "3:1"
+            "Arguments" = "8:"
+            "EntryPoint" = "8:"
+            "Sequence" = "3:1"
+            "Identifier" = "8:_618B1689_D46B_4B84_BD71_F7B19C79BFCD"
+            "InstallerClass" = "11:TRUE"
+            "CustomActionData" = "8:"
+            }
         }
         "DefaultFeature"
         {
@@ -112,20 +229,60 @@
         }
         "File"
         {
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_2477BD67B60643A70CD0012FFFD3F2CB"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_152F097B06BE425B9AE68C032E994041"
+            {
+            "SourcePath" = "8:vcredist_x86_2010.exe"
+            "TargetName" = "8:vcredist_x86_2010.exe"
+            "Tag" = "8:"
+            "Folder" = "8:_40BFA645491B4CCF9CEC35F5BC58A684"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_30DD3175F4CF4287B58A3C679E84DF66"
+            {
+            "SourcePath" = "8:msxmlenu.exe"
+            "TargetName" = "8:msxmlenu.exe"
+            "Tag" = "8:"
+            "Folder" = "8:_40BFA645491B4CCF9CEC35F5BC58A684"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_40945C4085FBC327D5B5183CE3C0BE68"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:MonoTorrent, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:Interop.IWshRuntimeLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86"
                 "ScatterAssemblies"
                 {
-                    "_2477BD67B60643A70CD0012FFFD3F2CB"
+                    "_40945C4085FBC327D5B5183CE3C0BE68"
                     {
-                    "Name" = "8:MonoTorrent.dll"
+                    "Name" = "8:Interop.IWshRuntimeLibrary.dll"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:MonoTorrent.dll"
+            "SourcePath" = "8:Interop.IWshRuntimeLibrary.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_40BFA645491B4CCF9CEC35F5BC58A684"
@@ -163,6 +320,46 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_66AF540AB6754C9796F03AA8DFCE85C6"
+            {
+            "SourcePath" = "8:setup.bat"
+            "TargetName" = "8:setup.bat"
+            "Tag" = "8:"
+            "Folder" = "8:_40BFA645491B4CCF9CEC35F5BC58A684"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_9EC1927AA85D36E4AA8F87775A6D6DFE"
+            {
+            "SourcePath" = "8:wshom.ocx"
+            "TargetName" = "8:wshom.ocx"
+            "Tag" = "8:"
+            "Folder" = "8:_40BFA645491B4CCF9CEC35F5BC58A684"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_C38A370F65B542008F6FE8DE2ED0CCAB"
             {
             "SourcePath" = "8:Arc.exe"
@@ -181,6 +378,88 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_C8C17BDBD0704F762EAB8DF8D5EE293B"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:MonoTorrent.Dht, Version=0.70.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_C8C17BDBD0704F762EAB8DF8D5EE293B"
+                    {
+                    "Name" = "8:MonoTorrent.Dht.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:MonoTorrent.Dht.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_40BFA645491B4CCF9CEC35F5BC58A684"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_D312EBB6041F47F6942313D7F3542FF1"
+            {
+            "SourcePath" = "8:dxwebsetup.exe"
+            "TargetName" = "8:dxwebsetup.exe"
+            "Tag" = "8:"
+            "Folder" = "8:_40BFA645491B4CCF9CEC35F5BC58A684"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_E24983B8F82FDC6418600F50CC04D187"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:MonoTorrent, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_E24983B8F82FDC6418600F50CC04D187"
+                    {
+                    "Name" = "8:MonoTorrent.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:MonoTorrent.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_40BFA645491B4CCF9CEC35F5BC58A684"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
         }
@@ -240,7 +519,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Steel"
         "ProductCode" = "8:{E08AA330-F9CB-4BB5-91EF-09E68BC4A628}"
-        "PackageCode" = "8:{B5A69599-9762-4C8E-BE46-0B33737C9535}"
+        "PackageCode" = "8:{63F4488D-A49A-46D9-8DD6-60FC7EF58C7D}"
         "UpgradeCode" = "8:{A4E282F2-09FD-4F00-9ACF-09FB0C6EC6DC}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -360,18 +639,18 @@
         }
         "Shortcut"
         {
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_FF6C7F4451BE4D3CAC91B88CFDDC8C65"
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_F21271D512874A608A521EAFAC132888"
             {
             "Name" = "8:Steel"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
-            "Transitive" = "11:TRUE"
-            "Target" = "8:_E4A11FEE35734F32953C2133756C1262"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_6A30E28D450F401DB050B5532D6ACF67"
             "Folder" = "8:_2A74BE7C4530412B994701A96358AFDA"
             "WorkingFolder" = "8:_40BFA645491B4CCF9CEC35F5BC58A684"
-            "Icon" = "8:_6033931CA66B4B828B5D912224142269"
+            "Icon" = "8:"
             "Feature" = "8:"
             }
         }
@@ -773,9 +1052,9 @@
         }
         "ProjectOutput"
         {
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_E4A11FEE35734F32953C2133756C1262"
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_6A30E28D450F401DB050B5532D6ACF67"
             {
-            "SourcePath" = "8:..\\Steel 2.0\\obj\\x86\\Debug\\Steel 2.0.exe"
+            "SourcePath" = "8:..\\Steel 2.0\\obj\\x86\\Debug\\Steel 2.1.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_40BFA645491B4CCF9CEC35F5BC58A684"
